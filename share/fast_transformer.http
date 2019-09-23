@@ -1,0 +1,4 @@
+// Minifies the PHP code of the specified document.
+GET {{baseUrl}}/Server.php?file=Server.php
+
+###

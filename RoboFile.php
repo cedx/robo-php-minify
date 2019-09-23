@@ -61,6 +61,14 @@ class RoboFile extends Tasks {
   }
 
   /**
+   * Starts the development server.
+   * @return Result The task result.
+   */
+  function serve(): Result {
+    return $this->taskServer(8000)->dir('lib')->run();
+  }
+
+  /**
    * Runs the test suites.
    * @return Result The task result.
    */

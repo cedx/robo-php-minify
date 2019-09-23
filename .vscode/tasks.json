@@ -26,6 +26,12 @@
       "type": "shell"
     },
     {
+      "command": "robo serve",
+      "label": "robo : serve",
+      "problemMatcher": [],
+      "type": "shell"
+    },
+    {
       "command": "robo test",
       "group": {"isDefault": true, "kind": "build"},
       "label": "robo : test",

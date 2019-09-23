@@ -55,7 +55,7 @@ class RoboFile extends Tasks {
    */
   function lint(): Result {
     return $this->taskExecStack()
-      ->exec('php -l example/main.php')
+      ->exec('php -l example/RoboFile.php')
       ->exec('phpstan analyse --configuration=etc/phpstan.neon')
       ->run();
   }

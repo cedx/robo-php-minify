@@ -24,7 +24,7 @@ class SafeTransformer implements Transformer {
 
   /**
    * Processes a PHP script.
-   * @param string The path to the PHP script.
+   * @param string $script The path to the PHP script.
    * @return string The transformed script.
    */
   function transform(string $script): string {

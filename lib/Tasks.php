@@ -5,9 +5,11 @@ namespace Robo\PhpMinify;
 trait Tasks {
 
   /**
+   * TODO
+   * @param string|string[] $sources
    * @return Minifier
    */
-  protected function taskPhpMinify(): Minifier {
+  protected function taskPhpMinify($sources): Minifier {
     return $this->task(Minifier::class);
   }
 }

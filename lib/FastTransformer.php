@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace Robo\PhpMinify;
 
+use GuzzleHttp\{Client};
 use Symfony\Component\Process\{Process};
 use Webmozart\PathUtil\{Path};
 
@@ -66,11 +67,10 @@ class FastTransformer implements Transformer {
    * @return string The transformed script.
    */
   function transform(string $script): string {
-    // TODO
     $address = static::address;
     $file = rawurlencode((string) realpath($script));
-    $endPoint = "http://$address:{$this->listen()}/Server.php?file=$file";
-    return 'TODO';
+    $port = $this->listen();
+    return (string) (new Client)->get("http://$address:$port/Server.php?file=$file")->getBody();
   }
 
   /**

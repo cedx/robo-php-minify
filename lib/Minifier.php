@@ -73,6 +73,7 @@ class Minifier extends BaseTask implements TaskInterface {
    * @return Result The task result.
    */
   function run(): Result {
+    /** @var string $binary */
     $binary = mb_strlen($this->binary) ? $this->binary : which('php', false, function() { return 'php'; });
     $this->transformer = $this->mode == TransformMode::fast ? new FastTransformer($binary) : new SafeTransformer($binary);
 

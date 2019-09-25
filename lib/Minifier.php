@@ -5,6 +5,7 @@ use function Which\{which};
 use Robo\{Result};
 use Robo\Contract\{TaskInterface};
 use Robo\Task\{BaseTask};
+use Symfony\Component\Finder\{Finder};
 
 /** Removes PHP comments and whitespace by applying the `php_strip_whitespace()` function. */
 class Minifier extends BaseTask implements TaskInterface {
@@ -32,10 +33,10 @@ class Minifier extends BaseTask implements TaskInterface {
 
   /**
    * Creates a new minifier.
-   * @param string|string[] $sources The file patterns of the input scripts.
+   * @param string|string[] $patterns The file patterns corresponding to the input scripts.
    */
-  function __construct($sources) {
-    $this->sources = is_array($sources) ? $sources : [$sources];
+  function __construct($patterns) {
+    $this->sources = is_array($patterns) ? $patterns : [$patterns];
   }
 
   /**
@@ -77,12 +78,25 @@ class Minifier extends BaseTask implements TaskInterface {
     $binary = mb_strlen($this->binary) ? $this->binary : which('php', false, function() { return 'php'; });
     $this->transformer = $this->mode == TransformMode::fast ? new FastTransformer($binary) : new SafeTransformer($binary);
 
-    // TODO get the file list.
     $files = [];
-    foreach ($files as $file) {
-      $this->transformer->transform($file);
+    foreach ($this->sources as $pattern) {
+      $finder = new Finder;
+      try { $finder->files()->followLinks()->in($pattern); }
+
+      catch (\InvalidArgumentException $e) {
+        if (strpos($pattern, '/') === false) $pattern = "./$pattern";
+
+        $parts = explode('/', $pattern);
+        $directory = implode('/', array_slice($parts, 0, -1));
+
+        try { $finder->files()->in($directory)->name(array_pop($parts)); }
+        catch (\InvalidArgumentException $e) { return Result::fromException($this, $e); }
+      }
+
+      foreach ($finder as $file) $files[] = $file->getRealPath();
     }
 
+    foreach ($files as $path) $this->transformer->transform($path);
     $this->transformer->close();
     return Result::success($this);
   }
@@ -103,7 +117,7 @@ class Minifier extends BaseTask implements TaskInterface {
    * @return $this This instance.
    */
   function to(string $destination): self {
-    $this->output = $destination;
+    $this->output = rtrim($destination, '/'.DIRECTORY_SEPARATOR);
     return $this;
   }
 }

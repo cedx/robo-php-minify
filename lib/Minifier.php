@@ -89,7 +89,7 @@ class Minifier extends BaseTask implements TaskInterface {
         $parts = explode('/', $pattern);
         $directory = implode('/', array_slice($parts, 0, -1));
 
-        try { $finder->files()->in($directory)->name(array_pop($parts)); }
+        try { $finder->files()->followLinks()->in($directory)->name(array_pop($parts)); }
         catch (\InvalidArgumentException $e) { return Result::fromException($this, $e); }
       }
 

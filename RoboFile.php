@@ -19,6 +19,17 @@ class RoboFile extends Tasks {
   }
 
   /**
+   * Builds the project.
+   * @return Result The task result.
+   */
+  function build(): Result {
+    return $this->taskPhpMinify('lib/*.php')
+      ->mode(TransformMode::fast)
+      ->to('build')
+      ->run();
+  }
+
+  /**
    * Deletes all generated files and reset any saved state.
    * @return Result The task result.
    */
@@ -60,17 +71,6 @@ class RoboFile extends Tasks {
     return $this->taskExecStack()
       ->exec('php -l example/RoboFile.php')
       ->exec('phpstan analyse --configuration=etc/phpstan.neon')
-      ->run();
-  }
-
-  /**
-   * Minifies the source code.
-   * @return Result The task result.
-   */
-  function minify(): Result {
-    return $this->taskPhpMinify('lib')
-      ->mode(TransformMode::fast)
-      ->to('build')
       ->run();
   }
 

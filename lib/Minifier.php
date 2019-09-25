@@ -11,16 +11,16 @@ use Symfony\Component\Finder\{Finder};
 class Minifier extends BaseTask implements TaskInterface {
 
   /** @var string The base path that is stripped from the computed path of the destination files. */
-  private $base = '';
+  private $base;
 
   /** @var string The path to the PHP executable. */
   private $binary = '';
 
+  /** @var string The path of the destination directory. */
+  private $destination;
+
   /** @var string The transform mode. */
   private $mode = TransformMode::safe;
-
-  /** @var string The path of the output directory. */
-  private $output;
 
   /** @var bool Value indicating whether to silent the minifier output. */
   private $silent = false;
@@ -36,36 +36,37 @@ class Minifier extends BaseTask implements TaskInterface {
    * @param string|string[] $patterns The file patterns corresponding to the input scripts.
    */
   function __construct($patterns) {
+    $this->base = (string) getcwd();
     $this->sources = is_array($patterns) ? $patterns : [$patterns];
   }
 
   /**
    * Sets the base path that is stripped from the computed path of the destination files.
-   * @param string $value The new base path.
+   * @param string $path The new base path.
    * @return $this This instance.
    */
-  function base(string $value): self {
-    $this->base = $value;
+  function base(string $path): self {
+    $this->base = Path::canonicalize($path);
     return $this;
   }
 
   /**
    * Sets the path to the PHP executable.
-   * @param string $value The new executable path.
+   * @param string $executable The new executable path.
    * @return $this This instance.
    */
-  function binary(string $value): self {
-    $this->binary = $value;
+  function binary(string $executable): self {
+    $this->binary = str_replace('/', DIRECTORY_SEPARATOR, Path::canonicalize($executable));
     return $this;
   }
 
   /**
    * Sets a value indicating the type of transformation applied by this minifier.
-   * @param string $value The transform mode.
+   * @param string $transformMode The transform mode.
    * @return $this This instance.
    */
-  function mode(string $value): self {
-    $this->mode = $value;
+  function mode(string $transformMode): self {
+    $this->mode = TransformMode::coerce($transformMode, TransformMode::safe);
     return $this;
   }
 
@@ -117,7 +118,7 @@ class Minifier extends BaseTask implements TaskInterface {
    * @return $this This instance.
    */
   function to(string $destination): self {
-    $this->output = rtrim($destination, '/'.DIRECTORY_SEPARATOR);
+    $this->destination = Path::canonicalize($destination);
     return $this;
   }
 }

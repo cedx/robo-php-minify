@@ -3,7 +3,6 @@ namespace Robo\PhpMinify;
 
 use GuzzleHttp\{Client};
 use Symfony\Component\Process\{Process};
-use Webmozart\PathUtil\{Path};
 
 /** Removes comments and whitespace from a PHP script, by calling a Web service. */
 class FastTransformer implements Transformer {
@@ -25,7 +24,7 @@ class FastTransformer implements Transformer {
    * @param string $executable The path to the PHP executable.
    */
   function __construct(string $executable = 'php') {
-    $this->executable = str_replace('/', DIRECTORY_SEPARATOR, Path::canonicalize($executable));
+    $this->executable = $executable;
   }
 
   /** Closes this transformer and releases any resources associated with it. */

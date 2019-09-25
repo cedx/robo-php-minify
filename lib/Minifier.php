@@ -6,6 +6,7 @@ use Robo\{Result};
 use Robo\Contract\{TaskInterface};
 use Robo\Task\{BaseTask};
 use Symfony\Component\Finder\{Finder};
+use Webmozart\PathUtil\{Path};
 
 /** Removes PHP comments and whitespace by applying the `php_strip_whitespace()` function. */
 class Minifier extends BaseTask implements TaskInterface {
@@ -24,6 +25,9 @@ class Minifier extends BaseTask implements TaskInterface {
 
   /** @var bool Value indicating whether to silent the minifier output. */
   private $silent = false;
+
+  /** @var int The number of progress steps. */
+  private $steps = 0;
 
   /** @var string[] The file patterns of the input scripts. */
   private $sources;
@@ -71,6 +75,14 @@ class Minifier extends BaseTask implements TaskInterface {
   }
 
   /**
+   * Returns the number of progress steps.
+   * @return int The number of progress steps.
+   */
+  public function progressIndicatorSteps(): int {
+    return $this->steps;
+  }
+
+  /**
    * Runs this task.
    * @return Result The task result.
    */
@@ -80,26 +92,51 @@ class Minifier extends BaseTask implements TaskInterface {
     $this->transformer = $this->mode == TransformMode::fast ? new FastTransformer($binary) : new SafeTransformer($binary);
 
     $files = [];
-    foreach ($this->sources as $pattern) {
+    foreach ($this->sources as $source) {
       $finder = new Finder;
-      try { $finder->files()->followLinks()->in($pattern); }
-
+      try { $finder->files()->followLinks()->in($source); }
       catch (\InvalidArgumentException $e) {
-        if (strpos($pattern, '/') === false) $pattern = "./$pattern";
+        try {
+          if (mb_strpos($source, '/') === false) $source = "./$source";
+          $parts = explode('/', $source);
+          $directory = implode('/', array_slice($parts, 0, -1));
 
-        $parts = explode('/', $pattern);
-        $directory = implode('/', array_slice($parts, 0, -1));
+          /** @var string $pattern */
+          $pattern = array_pop($parts);
+          $finder = (new Finder)->files()->followLinks()->in($directory)->name($pattern);
+        }
 
-        try { $finder->files()->followLinks()->in($directory)->name(array_pop($parts)); }
-        catch (\InvalidArgumentException $e) { return Result::fromException($this, $e); }
+        catch (\InvalidArgumentException $e) {
+          return Result::fromException($this, $e);
+        }
       }
 
       foreach ($finder as $file) $files[] = $file->getRealPath();
     }
 
-    foreach ($files as $path) $this->transformer->transform($path);
+    $this->steps = count($files);
+    $this->startProgressIndicator();
+
+    $basePath = (string) realpath($this->base);
+    $count = 0;
+    foreach ($files as $path) {
+      if (!$this->silent) $this->printTaskInfo('Minifying {path}', ['path' => $path]);
+      $output = Path::join($this->destination, Path::makeRelative($path, $basePath));
+      if (!is_dir($directory = dirname($output))) mkdir($directory, 0755, true);
+      if (file_put_contents($output, $this->transformer->transform($path))) $count++;
+      $this->advanceProgressIndicator();
+    }
+
     $this->transformer->close();
-    return Result::success($this);
+    $this->stopProgressIndicator();
+
+    $fileLabel = $this->steps <= 1 ? 'file' : 'files';
+    $context = ['count' => $count, 'total' => $this->steps, 'destination' => $this->destination];
+    $message = "Minified {count} out of {total} PHP $fileLabel into {destination}";
+    if ($count != $this->steps) return Result::error($this, $message, $context);
+
+    $this->printTaskSuccess($message, $context);
+    return Result::success($this, $message, $context);
   }
 
   /**

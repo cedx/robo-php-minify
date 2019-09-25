@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 namespace Robo\PhpMinify;
 
-use Webmozart\PathUtil\{Path};
-
 /** Removes comments and whitespace from a PHP script, by calling a PHP process. */
 class SafeTransformer implements Transformer {
 
@@ -14,7 +12,7 @@ class SafeTransformer implements Transformer {
    * @param string $executable The path to the PHP executable.
    */
   function __construct(string $executable = 'php') {
-    $this->executable = str_replace('/', DIRECTORY_SEPARATOR, Path::canonicalize($executable));
+    $this->executable = $executable;
   }
 
   /** Closes this transformer and releases any resources associated with it. */
@@ -29,7 +27,7 @@ class SafeTransformer implements Transformer {
    */
   function transform(string $script): string {
     $phpExecutable = escapeshellarg($this->executable);
-    $phpScript = escapeshellarg($script);
+    $phpScript = escapeshellarg((string) realpath($script));
     exec("$phpExecutable -w $phpScript", $output);
     return implode(PHP_EOL, $output);
   }

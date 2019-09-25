@@ -6,10 +6,10 @@ trait Tasks {
 
   /**
    * Creates a task minifying a set of PHP scripts.
-   * @param string|string[] $sources The file patterns of the input scripts.
+   * @param string|string[] $patterns The file patterns corresponding to the input scripts.
    * @return Minifier The newly created task.
    */
-  protected function taskPhpMinify($sources): Minifier {
-    return $this->task(Minifier::class, $sources);
+  protected function taskPhpMinify($patterns): Minifier {
+    return $this->task(Minifier::class, $patterns);
   }
 }

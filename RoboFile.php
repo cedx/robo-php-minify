@@ -24,7 +24,6 @@ class RoboFile extends Tasks {
    */
   function build(): Result {
     return $this->taskPhpMinify('lib')
-      ->base('lib')
       ->mode(TransformMode::fast)
       ->to('build')
       ->run();

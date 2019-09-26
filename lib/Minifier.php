@@ -12,7 +12,7 @@ use Webmozart\PathUtil\{Path};
 class Minifier extends BaseTask implements TaskInterface {
 
   /** @var string The base path that is stripped from the computed path of the destination files. */
-  private $base;
+  private $base = '';
 
   /** @var string The path to the PHP executable. */
   private $binary = '';
@@ -40,7 +40,6 @@ class Minifier extends BaseTask implements TaskInterface {
    * @param string|string[] $patterns The file patterns corresponding to the input scripts.
    */
   function __construct($patterns) {
-    $this->base = (string) getcwd();
     $this->sources = is_array($patterns) ? $patterns : [$patterns];
   }
 
@@ -111,13 +110,13 @@ class Minifier extends BaseTask implements TaskInterface {
         }
       }
 
-      foreach ($finder as $file) $files[] = $file;
+      foreach ($finder as $file) $files[$file->getRealPath()] = $file;
     }
 
     $this->steps = count($files);
     $this->startProgressIndicator();
 
-    $basePath = (string) realpath($this->base);
+    $basePath = mb_strlen($this->base) ? (string) realpath($this->base) : Path::getLongestCommonBasePath(array_keys($files));
     $count = 0;
     foreach ($files as $file) {
       if (!$this->silent) $this->printTaskInfo('Minifying {path}', ['path' => $file->getPathname()]);

@@ -23,7 +23,7 @@ class RoboFile extends Tasks {
    * @return Result The task result.
    */
   function build(): Result {
-    return $this->taskPhpMinify('lib/*.php')
+    return $this->taskPhpMinify('lib')
       ->base('lib')
       ->mode(TransformMode::fast)
       ->to('build')

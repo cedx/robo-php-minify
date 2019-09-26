@@ -111,7 +111,7 @@ class Minifier extends BaseTask implements TaskInterface {
         }
       }
 
-      foreach ($finder as $file) $files[] = $file->getRealPath();
+      foreach ($finder as $file) $files[] = $file;
     }
 
     $this->steps = count($files);
@@ -119,11 +119,11 @@ class Minifier extends BaseTask implements TaskInterface {
 
     $basePath = (string) realpath($this->base);
     $count = 0;
-    foreach ($files as $path) {
-      if (!$this->silent) $this->printTaskInfo('Minifying {path}', ['path' => $path]);
-      $output = Path::join($this->destination, Path::makeRelative($path, $basePath));
+    foreach ($files as $file) {
+      if (!$this->silent) $this->printTaskInfo('Minifying {path}', ['path' => $file->getPathname()]);
+      $output = Path::join($this->destination, Path::makeRelative($file->getRealPath(), $basePath));
       if (!is_dir($directory = dirname($output))) mkdir($directory, 0755, true);
-      if (file_put_contents($output, $this->transformer->transform($path))) $count++;
+      if (file_put_contents($output, $this->transformer->transform($file->getRealPath()))) $count++;
       $this->advanceProgressIndicator();
     }
 

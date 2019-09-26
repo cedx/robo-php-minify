@@ -16,7 +16,7 @@ class RoboFile extends Tasks {
    */
   function compressPhp(): Result {
     $isWindows = PHP_OS_FAMILY == 'Windows';
-    return $this->taskPhpMinify('path/to/src/**/*.php')
+    return $this->taskPhpMinify('path/to/src/*.php')
       ->binary($isWindows ? 'C:\\Program Files\\PHP\\php.exe' : '/usr/bin/php')
       ->mode($isWindows ? TransformMode::safe : TransformMode::fast)
       ->silent(stream_isatty(STDOUT))

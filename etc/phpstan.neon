@@ -1,4 +1,5 @@
 parameters:
   excludes_analyse: [test/fixtures/]
+  ignoreErrors: ['/Call to an undefined method Robo\\Collection\\CollectionBuilder/']
   level: max
   paths: [lib, test]

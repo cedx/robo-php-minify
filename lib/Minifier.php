@@ -110,7 +110,7 @@ class Minifier extends BaseTask implements TaskInterface {
         }
       }
 
-      foreach ($finder as $file) $files[$file->getRealPath()] = $file;
+      foreach ($finder as $file) $files[(string) $file->getRealPath()] = $file->getPathname();
     }
 
     $this->steps = count($files);
@@ -118,18 +118,17 @@ class Minifier extends BaseTask implements TaskInterface {
 
     if (mb_strlen($this->base)) $basePath = (string) realpath($this->base);
     else {
-      $directories = array_map(function(\SplFileInfo $file) { return $file->getPath(); }, array_keys($files));
+      $directories = array_map(function($file) { return dirname($file); }, array_keys($files));
       $basePath = Path::getLongestCommonBasePath($directories) ?: (string) getcwd();
     }
 
     $count = 0;
-    foreach ($files as $file) {
-      if (!$this->silent) $this->printTaskInfo('Minifying {path}', ['path' => $file->getPathname()]);
+    foreach ($files as $absolutePath => $relativePath) {
+      if (!$this->silent) $this->printTaskInfo('Minifying {path}', ['path' => $relativePath]);
 
-      $filePath = (string) $file->getRealPath();
-      $output = Path::join($this->destination, Path::makeRelative($filePath, $basePath));
+      $output = Path::join($this->destination, Path::makeRelative($absolutePath, $basePath));
       if (!is_dir($directory = dirname($output))) mkdir($directory, 0755, true);
-      if (file_put_contents($output, $this->transformer->transform($filePath))) $count++;
+      if (file_put_contents($output, $this->transformer->transform($absolutePath))) $count++;
 
       $this->advanceProgressIndicator();
     }

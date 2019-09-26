@@ -118,7 +118,7 @@ class Minifier extends BaseTask implements TaskInterface {
 
     if (mb_strlen($this->base)) $basePath = (string) realpath($this->base);
     else {
-      $directories = array_map(function($file) { return dirname($file); }, array_keys($files));
+      $directories = array_map(function(\SplFileInfo $file) { return $file->getPath(); }, array_keys($files));
       $basePath = Path::getLongestCommonBasePath($directories) ?: (string) getcwd();
     }
 

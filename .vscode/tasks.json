@@ -2,6 +2,12 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "command": "robo build",
+      "label": "robo : build",
+      "problemMatcher": [],
+      "type": "shell"
+    },
+    {
       "command": "robo clean",
       "label": "robo : clean",
       "problemMatcher": [],
@@ -47,12 +53,6 @@
     {
       "command": "robo version",
       "label": "robo : version",
-      "problemMatcher": [],
-      "type": "shell"
-    },
-    {
-      "command": "robo watch",
-      "label": "robo : watch",
       "problemMatcher": [],
       "type": "shell"
     }

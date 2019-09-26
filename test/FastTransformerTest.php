@@ -4,7 +4,10 @@ namespace Robo\PhpMinify;
 use function PHPUnit\Expect\{expect, it};
 use PHPUnit\Framework\{TestCase};
 
-/** Tests the features of the `Robo\PhpMinify\FastTransformer` class. */
+/**
+ * Tests the features of the `Robo\PhpMinify\FastTransformer` class.
+ * @runTestsInSeparateProcesses
+ */
 class FastTransformerTest extends TestCase {
 
   /** @test FastTransformer->close() */

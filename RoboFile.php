@@ -87,7 +87,7 @@ class RoboFile extends Tasks {
    * @return Result The task result.
    */
   function test(): Result {
-    return $this->_exec('phpunit --configuration=etc/phpunit.xml');
+    return $this->_exec('phpunit --configuration=etc/phpunit.xml --stderr');
   }
 
   /**

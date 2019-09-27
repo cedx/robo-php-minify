@@ -24,7 +24,7 @@ The file patterns use the same syntax as the [Symfony Finder component](https://
 
 !!! tip
     You can provide several file patterns to the `taskPhpMinify()` method:
-    the `patterns` parameter can be a `string` (single pattern) or an array of `string` (multiple patterns).  
+    the `$patterns` parameter can be a `string` (single pattern) or an array of `string` (multiple patterns).  
 
 ## Options
 The `PhpMinify` task also support the following options:

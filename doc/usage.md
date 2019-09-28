@@ -94,7 +94,7 @@ class RoboFile extends \Robo\Tasks {
 ```
 
 ### **silent**(bool $value = `false`)
-By default, the `PhpMinify` task prints to the standard output the paths of the minified scripts. You can disable this output by setting the `silent`.
+By default, the `PhpMinify` task prints to the standard output the paths of the minified scripts. You can disable this output by setting the `silent` option.
 
 ```php
 <?php

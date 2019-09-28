@@ -20,7 +20,7 @@ class RoboFile extends \Robo\Tasks {
 }
 ```
 
-The file patterns use the same syntax as the [Symfony Finder component](https://symfony.com/doc/current/components/finder.html) (for example: `"path/*/to/*/*/php"`).
+The file patterns use the same syntax as the [Symfony Finder component](https://symfony.com/doc/current/components/finder.html) (for example: `"path/*/to/*/*/src"`).
 
 !!! tip
     You can provide several file patterns to the `taskPhpMinify()` method:

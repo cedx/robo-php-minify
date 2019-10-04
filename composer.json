@@ -5,7 +5,7 @@
   "name": "cedx/robo-php-minify",
   "type": "robo-tasks",
   "authors": [
-    {"email": "cedric@belin.io", "name": "Cédric Belin", "homepage": "https://belin.io"}
+    {"email": "cedric@belin.io", "homepage": "https://belin.io", "name": "Cédric Belin"}
   ],
   "autoload": {
     "psr-4": {"Robo\\PhpMinify\\": "lib/"}

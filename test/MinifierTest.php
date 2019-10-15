@@ -8,7 +8,7 @@ use Robo\{Robo, TaskAccessor};
 use Robo\Collection\{CollectionBuilder};
 use Symfony\Component\Console\Output\{NullOutput};
 
-/** Tests the features of the `Robo\PhpMinify\Minifier` class. */
+/** @testdox Robo\PhpMinify\Minifier */
 class MinifierTest extends TestCase implements ContainerAwareInterface {
   use ContainerAwareTrait;
   use Tasks;
@@ -27,7 +27,7 @@ class MinifierTest extends TestCase implements ContainerAwareInterface {
     $this->setContainer(Robo::createDefaultContainer(null, new NullOutput));
   }
 
-  /** @test Minifier->run() */
+  /** @testdox ->run() */
   function testRun(): void {
     it('should remove the comments and whitespace using the fast transformer', function() {
       $testDir = 'var/test/Minifier.run.fast';

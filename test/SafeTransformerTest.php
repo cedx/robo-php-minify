@@ -4,10 +4,10 @@ namespace Robo\PhpMinify;
 use function PHPUnit\Expect\{expect, it};
 use PHPUnit\Framework\{TestCase};
 
-/** Tests the features of the `Robo\PhpMinify\SafeTransformer` class. */
+/** @testdox Robo\PhpMinify\SafeTransformer */
 class SafeTransformerTest extends TestCase {
 
-  /** @test SafeTransformer->close() */
+  /** @testdox ->close() */
   function testClose(): void {
     $transformer = new SafeTransformer;
 
@@ -21,7 +21,7 @@ class SafeTransformerTest extends TestCase {
     });
   }
 
-  /** @test SafeTransformer->transform() */
+  /** @testdox ->transform() */
   function testTransform(): void {
     $script = 'test/fixtures/sample.php';
     $transformer = new SafeTransformer;

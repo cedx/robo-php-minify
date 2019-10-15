@@ -4,7 +4,7 @@ namespace Robo\PhpMinify;
 use function PHPUnit\Expect\{expect, it};
 use PHPUnit\Framework\{TestCase};
 
-/** Tests the features of the `Robo\PhpMinify\Server` class. */
+/** @testdox Robo\PhpMinify\Server */
 class ServerTest extends TestCase {
 
   /** @var \ReflectionClass The object used to change the visibility of inaccessible class members. */
@@ -15,7 +15,7 @@ class ServerTest extends TestCase {
     self::$reflection = new \ReflectionClass(Server::class);
   }
 
-  /** @test Server->processRequest() */
+  /** @testdox ->processRequest() */
   function testProcessRequest(): void {
     $method = self::$reflection->getMethod('processRequest');
     $method->setAccessible(true);

@@ -4,10 +4,10 @@ namespace Robo\PhpMinify;
 use function PHPUnit\Expect\{expect, it};
 use PHPUnit\Framework\{TestCase};
 
-/** Tests the features of the `Robo\PhpMinify\FastTransformer` class. */
+/** @testdox Robo\PhpMinify\FastTransformer */
 class FastTransformerTest extends TestCase {
 
-  /** @test FastTransformer->close() */
+  /** @testdox ->close() */
   function testClose(): void {
     $transformer = new FastTransformer;
 
@@ -22,7 +22,7 @@ class FastTransformerTest extends TestCase {
     });
   }
 
-  /** @test FastTransformer->isListening() */
+  /** @testdox ->isListening() */
   function testIsListening(): void {
     $transformer = new FastTransformer;
 
@@ -37,7 +37,7 @@ class FastTransformerTest extends TestCase {
     });
   }
 
-  /** @test FastTransformer->listen() */
+  /** @testdox ->listen() */
   function testListen(): void {
     $transformer = new FastTransformer;
 
@@ -53,7 +53,7 @@ class FastTransformerTest extends TestCase {
     $transformer->close();
   }
 
-  /** @test FastTransformer->transform() */
+  /** @testdox ->transform() */
   function testTransform(): void {
     $script = 'test/fixtures/sample.php';
     $transformer = new FastTransformer;

@@ -31,7 +31,7 @@
     "cedx/enum": "^7.5.0",
     "cedx/which": "^7.2.0",
     "consolidation/robo": "^1.4.10",
-    "guzzlehttp/guzzle": "^6.3.3",
+    "guzzlehttp/guzzle": "^6.4.1",
     "symfony/finder": "^4.3.5",
     "symfony/process": "^4.3.5",
     "webmozart/path-util": "^2.3.0"

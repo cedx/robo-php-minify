@@ -25,11 +25,11 @@
     "task"
   ],
   "require": {
-    "php": ">=7.2.0",
+    "php": ">=7.4.0",
     "ext-mbstring": "*",
     "ext-spl": "*",
     "cedx/enum": "^7.5.0",
-    "cedx/which": "^7.2.0",
+    "cedx/which": "^8.0.0",
     "consolidation/robo": "^1.4.10",
     "guzzlehttp/guzzle": "^6.4.1",
     "symfony/finder": "^4.3.5",

@@ -13,12 +13,12 @@ class FastTransformerTest extends TestCase {
 
     it('should complete without any error', function() use ($transformer) {
       $transformer->listen();
-      expect(function() use ($transformer) { $transformer->close(); })->to->not->throw;
+      expect(fn() => $transformer->close())->to->not->throw;
     });
 
     it('should be callable multiple times', function() use ($transformer) {
-      expect(function() use ($transformer) { $transformer->close(); })->to->not->throw;
-      expect(function() use ($transformer) { $transformer->close(); })->to->not->throw;
+      expect(fn() => $transformer->close())->to->not->throw;
+      expect(fn() => $transformer->close())->to->not->throw;
     });
   }
 
@@ -42,12 +42,12 @@ class FastTransformerTest extends TestCase {
     $transformer = new FastTransformer;
 
     it('should complete without any error', function() use ($transformer) {
-      expect(function() use ($transformer) { $transformer->listen(); })->to->not->throw;
+      expect(fn() => $transformer->listen())->to->not->throw;
     });
 
     it('should be callable multiple times', function() use ($transformer) {
-      expect(function() use ($transformer) { $transformer->listen(); })->to->not->throw;
-      expect(function() use ($transformer) { $transformer->listen(); })->to->not->throw;
+      expect(fn() => $transformer->listen())->to->not->throw;
+      expect(fn() => $transformer->listen())->to->not->throw;
     });
 
     $transformer->close();

@@ -87,7 +87,7 @@ class Minifier extends BaseTask implements TaskInterface {
    */
   function run(): Result {
     /** @var string $binary */
-    $binary = mb_strlen($this->binary) ? $this->binary : which('php', false, function() { return 'php'; });
+    $binary = mb_strlen($this->binary) ? $this->binary : which('php', false, fn() => 'php');
     $this->transformer = $this->mode == TransformMode::fast ? new FastTransformer($binary) : new SafeTransformer($binary);
 
     $files = [];
@@ -118,7 +118,7 @@ class Minifier extends BaseTask implements TaskInterface {
 
     if (mb_strlen($this->base)) $basePath = (string) realpath($this->base);
     else {
-      $directories = array_map(function($file) { return dirname($file); }, array_keys($files));
+      $directories = array_map(fn($file) => dirname($file), array_keys($files));
       $basePath = Path::getLongestCommonBasePath($directories) ?: (string) getcwd();
     }
 

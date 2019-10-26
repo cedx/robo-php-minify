@@ -11,13 +11,13 @@ class FastTransformer implements Transformer {
   const address = '127.0.0.1';
 
   /** @var string The path to the PHP executable. */
-  private $executable;
+  private string $executable;
 
   /** @var int The port that the PHP process is listening on. */
-  private $port = -1;
+  private int $port = -1;
 
   /** @var Process|null The underlying PHP process. */
-  private $process;
+  private ?Process $process = null;
 
   /**
    * Creates a new safe transformer.

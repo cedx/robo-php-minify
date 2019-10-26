@@ -5,7 +5,7 @@ namespace Robo\PhpMinify;
 class SafeTransformer implements Transformer {
 
   /** @var string The path to the PHP executable. */
-  private $executable;
+  private string $executable;
 
   /**
    * Creates a new safe transformer.

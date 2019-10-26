@@ -1,18 +1,12 @@
 <?php declare(strict_types=1);
 
-/**
- * Implementation of the `dummy\Dummy` class.
- */
+/** Implementation of the `dummy\Dummy` class. */
 namespace dummy;
 
-/**
- * A dummy class.
- */
+/** A dummy class. */
 class Dummy {
 
-  /**
-   * Creates a new instance.
-   */
+  /** Creates a new instance. */
   public function __construct() {
 
   }

@@ -30,7 +30,7 @@
     "ext-spl": "*",
     "cedx/enum": "^7.5.0",
     "cedx/which": "^7.2.0",
-    "consolidation/robo": "^1.4.11",
+    "consolidation/robo": "^2.0.0",
     "guzzlehttp/guzzle": "^6.4.1",
     "symfony/finder": "^4.3.6",
     "symfony/process": "^4.3.6",

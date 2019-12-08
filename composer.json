@@ -31,16 +31,16 @@
     "cedx/enum": "^8.0.0",
     "cedx/which": "^8.0.0",
     "consolidation/robo": "^2.0.0",
-    "guzzlehttp/guzzle": "^6.4.1",
+    "guzzlehttp/guzzle": "^6.5.0",
     "symfony/finder": "^4.4.1 || ^5.0.1",
     "symfony/process": "^4.4.1 || ^5.0.1",
     "webmozart/path-util": "^2.3.0"
   },
   "require-dev": {
-    "cedx/coveralls": "^12.0.0",
+    "cedx/coveralls": "^11.2.0",
     "cedx/phpunit-expect": "^0.8.0",
     "league/container": "^2.4.1",
-    "phpstan/phpstan": "^0.12.0",
+    "phpstan/phpstan": "^0.12.1",
     "symfony/console": "^4.4.1 || ^5.0.1"
   },
   "scripts": {

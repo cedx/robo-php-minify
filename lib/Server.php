@@ -20,7 +20,7 @@ class Server {
 
   /**
    * Runs the application.
-   * @param array $args The request parameters.
+   * @param array<string, string> $args The request parameters.
    */
   function run(array $args = []): void {
     set_error_handler([$this, 'handleError']);
@@ -42,7 +42,7 @@ class Server {
 
   /**
    * Processes the specified request body.
-   * @param array $args The request sent by a client.
+   * @param array<string, string> $args The request sent by a client.
    * @return string The stripped source code corresponding to the provided file.
    * @throws \Exception The requirements are not met, or an error occurred.
    */

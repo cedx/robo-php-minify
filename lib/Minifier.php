@@ -12,28 +12,28 @@ use Webmozart\PathUtil\{Path};
 class Minifier extends BaseTask implements TaskInterface {
 
   /** @var string The base path that is stripped from the computed path of the destination files. */
-  private $base = '';
+  private string $base = '';
 
   /** @var string The path to the PHP executable. */
-  private $binary = '';
+  private string $binary = '';
 
   /** @var string The path of the destination directory. */
-  private $destination;
+  private string $destination;
 
   /** @var string The transform mode. */
-  private $mode = TransformMode::safe;
+  private string $mode = TransformMode::safe;
 
   /** @var bool Value indicating whether to silent the minifier output. */
-  private $silent = false;
+  private bool $silent = false;
 
   /** @var int The number of progress steps. */
-  private $steps = 0;
+  private int $steps = 0;
 
   /** @var string[] The file patterns of the input scripts. */
-  private $sources;
+  private array $sources;
 
   /** @var Transformer The instance used to process the PHP code. */
-  private $transformer;
+  private Transformer $transformer;
 
   /**
    * Creates a new minifier.
@@ -87,7 +87,7 @@ class Minifier extends BaseTask implements TaskInterface {
    */
   function run(): Result {
     /** @var string $binary */
-    $binary = mb_strlen($this->binary) ? $this->binary : which('php', false, function() { return 'php'; });
+    $binary = mb_strlen($this->binary) ? $this->binary : which('php', false, fn() => 'php');
     $this->transformer = $this->mode == TransformMode::fast ? new FastTransformer($binary) : new SafeTransformer($binary);
 
     $files = [];
@@ -118,7 +118,7 @@ class Minifier extends BaseTask implements TaskInterface {
 
     if (mb_strlen($this->base)) $basePath = (string) realpath($this->base);
     else {
-      $directories = array_map(function($file) { return dirname($file); }, array_keys($files));
+      $directories = array_map(fn($file) => dirname($file), array_keys($files));
       $basePath = Path::getLongestCommonBasePath($directories) ?: (string) getcwd();
     }
 

@@ -1,5 +1,9 @@
 parameters:
-  excludes_analyse: [test/fixtures/]
-  ignoreErrors: ['/Call to an undefined method Robo\\Collection\\CollectionBuilder/']
+  checkMissingIterableValueType: false
+  excludes_analyse: [../test/fixtures/]
   level: max
-  paths: [lib, test]
+  paths: [../lib, ../test]
+  ignoreErrors:
+    - '/Call to an undefined method Robo\\Collection\\CollectionBuilder/'
+    - '/on a separate line does not do anything/'
+    - '/Result of method .* \(void\) is used/'

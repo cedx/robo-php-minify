@@ -7,8 +7,8 @@ use PHPUnit\Framework\{TestCase};
 /** @testdox Robo\PhpMinify\Server */
 class ServerTest extends TestCase {
 
-  /** @var \ReflectionClass The object used to change the visibility of inaccessible class members. */
-  private static $reflection;
+  /** @var \ReflectionClass<Server> The object used to change the visibility of inaccessible class members. */
+  private static \ReflectionClass $reflection;
 
   /** @beforeClass This method is called before the first test of this test class is run. */
   static function setUpBeforeClass(): void {
@@ -21,11 +21,11 @@ class ServerTest extends TestCase {
     $method->setAccessible(true);
 
     it('should throw an exception if the input request is invalid', function() use ($method) {
-      expect(function() use ($method) { $method->invoke(new Server, []); })->to->throw(\LogicException::class);
+      expect(fn() => $method->invoke(new Server, []))->to->throw(\LogicException::class);
     });
 
     it('should throw an exception if the requested file does not exist', function() use ($method) {
-      expect(function() use ($method) { $method->invoke(new Server, ['file' => 'dummy.txt']); })->to->throw(\RuntimeException::class);
+      expect(fn() => $method->invoke(new Server, ['file' => 'dummy.txt']))->to->throw(\RuntimeException::class);
     });
 
     it('should remove the comments and whitespace of the requested file', function() use ($method) {

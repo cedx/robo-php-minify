@@ -12,12 +12,12 @@ class SafeTransformerTest extends TestCase {
     $transformer = new SafeTransformer;
 
     it('should complete without any error', function() use ($transformer) {
-      expect(function() use ($transformer) { $transformer->close(); })->to->not->throw;
+      expect(fn() => $transformer->close())->to->not->throw;
     });
 
     it('should be callable multiple times', function() use ($transformer) {
-      expect(function() use ($transformer) { $transformer->close(); })->to->not->throw;
-      expect(function() use ($transformer) { $transformer->close(); })->to->not->throw;
+      expect(fn() => $transformer->close())->to->not->throw;
+      expect(fn() => $transformer->close())->to->not->throw;
     });
   }
 

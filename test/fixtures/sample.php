@@ -1,18 +1,12 @@
 <?php declare(strict_types=1);
 
-/**
- * Implementation of the `dummy\Dummy` class.
- */
+/** Implementation of the `dummy\Dummy` class. */
 namespace dummy;
 
-/**
- * A dummy class.
- */
+/** A dummy class. */
 class Dummy {
 
-  /**
-   * Creates a new instance.
-   */
+  /** Creates a new instance. */
   public function __construct() {
 
   }
@@ -31,7 +25,7 @@ class Dummy {
 }
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>Tests</title>

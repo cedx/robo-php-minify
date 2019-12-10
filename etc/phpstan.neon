@@ -1,9 +1,9 @@
 parameters:
+  checkMissingIterableValueType: false
   excludes_analyse: [../test/fixtures/]
   level: max
   paths: [../lib, ../test]
   ignoreErrors:
     - '/Call to an undefined method Robo\\Collection\\CollectionBuilder/'
-    - '/has no value type specified in iterable type/'
     - '/on a separate line does not do anything/'
     - '/Result of method .* \(void\) is used/'

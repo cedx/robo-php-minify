@@ -40,7 +40,7 @@
     "cedx/coveralls": "^12.0.0",
     "cedx/phpunit-expect": "^0.9.0",
     "league/container": "^2.4.1",
-    "phpstan/phpstan": "^0.12.2",
+    "phpstan/phpstan": "^0.12.3",
     "symfony/console": "^4.4.1 || ^5.0.1"
   },
   "scripts": {

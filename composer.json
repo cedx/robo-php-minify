@@ -31,9 +31,9 @@
     "cedx/enum": "^8.0.0",
     "cedx/which": "^8.0.0",
     "consolidation/robo": "^2.0.0",
-    "guzzlehttp/guzzle": "^6.5.0",
-    "symfony/finder": "^4.4.1 || ^5.0.1",
-    "symfony/process": "^4.4.1 || ^5.0.1",
+    "guzzlehttp/guzzle": "^6.5.1",
+    "symfony/finder": "^4.4.2 || ^5.0.2",
+    "symfony/process": "^4.4.2 || ^5.0.2",
     "webmozart/path-util": "^2.3.0"
   },
   "require-dev": {
@@ -41,7 +41,7 @@
     "cedx/phpunit-expect": "^0.9.0",
     "league/container": "^2.4.1",
     "phpstan/phpstan": "^0.12.3",
-    "symfony/console": "^4.4.1 || ^5.0.1"
+    "symfony/console": "^4.4.2 || ^5.0.2"
   },
   "scripts": {
     "coverage": "robo coverage",

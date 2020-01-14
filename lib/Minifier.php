@@ -49,7 +49,7 @@ class Minifier extends BaseTask implements TaskInterface {
    * @return $this This instance.
    */
   function base(string $path): self {
-    $this->base = Path::canonicalize($path);
+    $this->base = str_replace('/', DIRECTORY_SEPARATOR, Path::canonicalize($path));
     return $this;
   }
 
@@ -161,7 +161,7 @@ class Minifier extends BaseTask implements TaskInterface {
    * @return $this This instance.
    */
   function to(string $destination): self {
-    $this->destination = Path::canonicalize($destination);
+    $this->destination = str_replace('/', DIRECTORY_SEPARATOR, Path::canonicalize($destination));
     return $this;
   }
 }

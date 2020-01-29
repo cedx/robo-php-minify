@@ -3,6 +3,7 @@ parameters:
   excludes_analyse: [../test/fixtures/]
   level: max
   paths: [../lib, ../test]
+  treatPhpDocTypesAsCertain: false
   ignoreErrors:
     - '/Call to an undefined method Robo\\Collection\\CollectionBuilder/'
     - '/on a separate line does not do anything/'

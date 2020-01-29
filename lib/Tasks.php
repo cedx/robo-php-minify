@@ -12,6 +12,7 @@ trait Tasks {
    * @return CollectionBuilder|Minifier The newly created task.
    */
   protected function taskPhpMinify($patterns) {
+    assert(is_string($patterns) || is_array($patterns));
     return $this->task(Minifier::class, $patterns);
   }
 }

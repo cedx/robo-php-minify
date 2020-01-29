@@ -24,6 +24,7 @@ class FastTransformer implements Transformer {
    * @param string $executable The path to the PHP executable.
    */
   function __construct(string $executable = 'php') {
+    assert(mb_strlen($executable) > 0);
     $this->executable = $executable;
   }
 
@@ -66,6 +67,7 @@ class FastTransformer implements Transformer {
    * @return string The transformed script.
    */
   function transform(string $script): string {
+    assert(mb_strlen($script) > 0);
     $address = static::address;
     $file = rawurlencode((string) realpath($script));
     $port = $this->listen();

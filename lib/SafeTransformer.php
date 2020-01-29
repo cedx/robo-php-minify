@@ -12,6 +12,7 @@ class SafeTransformer implements Transformer {
    * @param string $executable The path to the PHP executable.
    */
   function __construct(string $executable = 'php') {
+    assert(mb_strlen($executable) > 0);
     $this->executable = $executable;
   }
 
@@ -26,6 +27,7 @@ class SafeTransformer implements Transformer {
    * @return string The transformed script.
    */
   function transform(string $script): string {
+    assert(mb_strlen($script) > 0);
     $phpExecutable = escapeshellarg($this->executable);
     $phpScript = escapeshellarg((string) realpath($script));
     exec("$phpExecutable -w $phpScript", $output);

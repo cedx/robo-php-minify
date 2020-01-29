@@ -14,6 +14,8 @@ class Server {
    * @throws \ErrorException When an error occurred.
    */
   function handleError(int $severity, string $message, string $file = __FILE__, int $line = __LINE__): bool {
+    assert(mb_strlen($file) > 0);
+    assert($line > 0);
     if (error_reporting() & $severity) throw new \ErrorException($message, 0, $severity, $file, $line);
     return false;
   }
@@ -34,6 +36,7 @@ class Server {
    * @param int $status The status code of the response.
    */
   function sendResponse(string $body, int $status = 200): void {
+    assert($status >= 100 && $status < 600);
     http_response_code($status);
     header('Content-Length: '.strlen($body));
     header('Content-Type: text/plain; charset='.mb_internal_encoding());

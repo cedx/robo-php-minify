@@ -40,6 +40,7 @@ class Minifier extends BaseTask implements TaskInterface {
    * @param string|string[] $patterns The file patterns corresponding to the input scripts.
    */
   function __construct($patterns) {
+    assert(is_string($patterns) || is_array($patterns));
     $this->sources = is_array($patterns) ? $patterns : [$patterns];
   }
 
@@ -49,6 +50,7 @@ class Minifier extends BaseTask implements TaskInterface {
    * @return $this This instance.
    */
   function base(string $path): self {
+    assert(mb_strlen($path) > 0);
     $this->base = str_replace('/', DIRECTORY_SEPARATOR, Path::canonicalize($path));
     return $this;
   }
@@ -59,6 +61,7 @@ class Minifier extends BaseTask implements TaskInterface {
    * @return $this This instance.
    */
   function binary(string $executable): self {
+    assert(mb_strlen($executable) > 0);
     $this->binary = str_replace('/', DIRECTORY_SEPARATOR, Path::canonicalize($executable));
     return $this;
   }
@@ -161,6 +164,7 @@ class Minifier extends BaseTask implements TaskInterface {
    * @return $this This instance.
    */
   function to(string $destination): self {
+    assert(mb_strlen($destination) > 0);
     $this->destination = str_replace('/', DIRECTORY_SEPARATOR, Path::canonicalize($destination));
     return $this;
   }

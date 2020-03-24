@@ -95,8 +95,11 @@ class Minifier extends BaseTask implements TaskInterface {
 
     $files = [];
     foreach ($this->sources as $source) {
-      $finder = new Finder;
-      try { $finder->files()->followLinks()->in($source); }
+      try {
+        $finder = new Finder;
+        $finder->files()->followLinks()->in($source);
+      }
+
       catch (\InvalidArgumentException $e) {
         try {
           if (mb_strpos($source, '/') === false) $source = "./$source";

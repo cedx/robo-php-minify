@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 namespace Robo\PhpMinify;
 
-use function PHPUnit\Expect\{expect, it};
-use PHPUnit\Framework\{TestCase};
+use PHPUnit\Framework\{Assert, TestCase};
+use function PHPUnit\Framework\{assertThat, isFalse, isNull, isTrue, stringContains};
 
 /** @testdox Robo\PhpMinify\FastTransformer */
 class FastTransformerTest extends TestCase {
@@ -11,44 +11,67 @@ class FastTransformerTest extends TestCase {
   function testClose(): void {
     $transformer = new FastTransformer;
 
-    it('should complete without any error', function() use ($transformer) {
+    // It should complete without any error.
+    try {
       $transformer->listen();
-      expect(fn() => $transformer->close())->to->not->throw;
-    });
+      $transformer->close();
+      assertThat(null, isNull());
+    }
 
-    it('should be callable multiple times', function() use ($transformer) {
-      expect(fn() => $transformer->close())->to->not->throw;
-      expect(fn() => $transformer->close())->to->not->throw;
-    });
+    catch (\Throwable $e) {
+      Assert::fail($e->getMessage());
+    }
+
+    // It should be callable multiple times.
+    try {
+      $transformer->close();
+      $transformer->close();
+      assertThat(null, isNull());
+    }
+
+    catch (\Throwable $e) {
+      Assert::fail($e->getMessage());
+    }
   }
 
   /** @testdox ->isListening() */
   function testIsListening(): void {
     $transformer = new FastTransformer;
 
-    it('should return whether the server is listening', function() use ($transformer) {
-      expect($transformer->isListening())->to->be->false;
+    // It should return whether the server is listening.
+    assertThat($transformer->isListening(), isFalse());
 
-      $transformer->listen();
-      expect($transformer->isListening())->to->be->true;
+    $transformer->listen();
+    assertThat($transformer->isListening(), isTrue());
 
-      $transformer->close();
-      expect($transformer->isListening())->to->be->false;
-    });
+    $transformer->close();
+    assertThat($transformer->isListening(), isFalse());
   }
 
   /** @testdox ->listen() */
   function testListen(): void {
     $transformer = new FastTransformer;
 
-    it('should complete without any error', function() use ($transformer) {
-      expect(fn() => $transformer->listen())->to->not->throw;
-    });
+    // It should complete without any error.
+    try {
+      $transformer->listen();
+      assertThat(null, isNull());
+    }
 
-    it('should be callable multiple times', function() use ($transformer) {
-      expect(fn() => $transformer->listen())->to->not->throw;
-      expect(fn() => $transformer->listen())->to->not->throw;
-    });
+    catch (\Throwable $e) {
+      Assert::fail($e->getMessage());
+    }
+
+    // It should be callable multiple times.
+    try {
+      $transformer->listen();
+      $transformer->listen();
+      assertThat(null, isNull());
+    }
+
+    catch (\Throwable $e) {
+      Assert::fail($e->getMessage());
+    }
 
     $transformer->close();
   }
@@ -58,22 +81,17 @@ class FastTransformerTest extends TestCase {
     $script = 'test/fixtures/sample.php';
     $transformer = new FastTransformer;
 
-    it('should remove the inline comments', function() use ($script, $transformer) {
-      expect($transformer->transform($script))->to->contain("<?= 'Hello World!' ?>");
-    });
+    // It should remove the inline comments.
+    assertThat($transformer->transform($script), stringContains("<?= 'Hello World!' ?>"));
 
-    it('should remove the multi-line comments', function() use ($script, $transformer) {
-      expect($transformer->transform($script))->to->contain('namespace dummy; class Dummy');
-    });
+    // It should remove the multi-line comments.
+    assertThat($transformer->transform($script), stringContains('namespace dummy; class Dummy'));
 
-    it('should remove the single-line comments', function() use ($script, $transformer) {
-      expect($transformer->transform($script))->to->contain('$className = get_class($this); return $className;');
-    });
+    // It should remove the single-line comments.
+    assertThat($transformer->transform($script), stringContains('$className = get_class($this); return $className;'));
 
-    it('should remove the whitespace', function() use ($script, $transformer) {
-      expect($transformer->transform($script))->to->contain('__construct() { }');
-    });
-
+    // It should remove the whitespace.
+    assertThat($transformer->transform($script), stringContains('__construct() { }'));
     $transformer->close();
   }
 }

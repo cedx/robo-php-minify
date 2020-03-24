@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 namespace Robo\PhpMinify;
 
-use function PHPUnit\Expect\{expect, it};
-use PHPUnit\Framework\{TestCase};
+use PHPUnit\Framework\{Assert, TestCase};
+use function PHPUnit\Framework\{assertThat, isInstanceOf, logicalAnd, stringContains};
 
 /** @testdox Robo\PhpMinify\Server */
 class ServerTest extends TestCase {
@@ -20,20 +20,33 @@ class ServerTest extends TestCase {
     $method = self::$reflection->getMethod('processRequest');
     $method->setAccessible(true);
 
-    it('should throw an exception if the input request is invalid', function() use ($method) {
-      expect(fn() => $method->invoke(new Server, []))->to->throw(\LogicException::class);
-    });
+    // It should throw an exception if the input request is invalid.
+    try {
+      $method->invoke(new Server, []);
+      Assert::fail('Exception not thrown');
+    }
 
-    it('should throw an exception if the requested file does not exist', function() use ($method) {
-      expect(fn() => $method->invoke(new Server, ['file' => 'dummy.txt']))->to->throw(\RuntimeException::class);
-    });
+    catch (\Throwable $e) {
+      assertThat($e, isInstanceOf(\LogicException::class));
+    }
 
-    it('should remove the comments and whitespace of the requested file', function() use ($method) {
-      $output = $method->invoke(new Server, ['file' => 'test/fixtures/sample.php']);
-      expect($output)->to->contain("<?= 'Hello World!' ?>")
-        ->and->contain('namespace dummy; class Dummy')
-        ->and->contain('$className = get_class($this); return $className;')
-        ->and->contain('__construct() { }');
-    });
+    // It should throw an exception if the requested file does not exist.
+    try {
+      $method->invoke(new Server, ['file' => 'dummy.txt']);
+      Assert::fail('Exception not thrown');
+    }
+
+    catch (\Throwable $e) {
+      assertThat($e, isInstanceOf(\RuntimeException::class));
+    }
+
+    // It should remove the comments and whitespace of the requested file.
+    $output = $method->invoke(new Server, ['file' => 'test/fixtures/sample.php']);
+    assertThat($output, logicalAnd(
+      stringContains("<?= 'Hello World!' ?>"),
+      stringContains('namespace dummy; class Dummy'),
+      stringContains('$className = get_class($this); return $className;'),
+      stringContains('__construct() { }')
+    ));
   }
 }

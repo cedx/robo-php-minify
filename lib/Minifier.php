@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 namespace Robo\PhpMinify;
 
-use function Which\{which};
 use Robo\{Result};
 use Robo\Contract\{TaskInterface};
 use Robo\Task\{BaseTask};
 use Symfony\Component\Finder\{Finder};
 use Webmozart\PathUtil\{Path};
+use function Which\{which};
 
 /** Removes PHP comments and whitespace by applying the `php_strip_whitespace()` function. */
 class Minifier extends BaseTask implements TaskInterface {

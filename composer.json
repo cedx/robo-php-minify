@@ -34,6 +34,8 @@
     "cedx/enum": "^8.1.0",
     "cedx/which": "^8.1.0",
     "consolidation/robo": "^2.0.3",
+    "nyholm/psr7": "^1.2.1",
+    "psr/http-client": "^1.0.0",
     "symfony/finder": "^4.4.5 || ^5.0.5",
     "symfony/http-client": "^5.0.5",
     "symfony/process": "^4.4.5 || ^5.0.5",

@@ -1,9 +1,8 @@
 <?php declare(strict_types=1);
 namespace Robo\PhpMinify;
 
-use Symfony\Component\HttpClient\{HttpClient};
+use Symfony\Component\HttpClient\{Psr18Client};
 use Symfony\Component\Process\{Process};
-use Symfony\Contracts\HttpClient\{HttpClientInterface};
 
 /** Removes comments and whitespace from a PHP script, by calling a Web service. */
 class FastTransformer implements Transformer {
@@ -14,8 +13,8 @@ class FastTransformer implements Transformer {
   /** @var string The path to the PHP executable. */
   private string $executable;
 
-  /** @var HttpClientInterface The HTTP client. */
-  private HttpClientInterface $http;
+  /** @var Psr18Client The HTTP client. */
+  private Psr18Client $http;
 
   /** @var int The port that the PHP process is listening on. */
   private int $port = -1;
@@ -30,7 +29,7 @@ class FastTransformer implements Transformer {
   function __construct(string $executable = 'php') {
     assert(mb_strlen($executable) > 0);
     $this->executable = $executable;
-    $this->http = HttpClient::create();
+    $this->http = new Psr18Client;
   }
 
   /** Closes this transformer and releases any resources associated with it. */
@@ -75,9 +74,9 @@ class FastTransformer implements Transformer {
   function transform(string $script): string {
     assert(mb_strlen($script) > 0);
     $address = static::address;
-    $port = $this->listen();
-    $query = ['file' => (string) realpath($script)];
-    return $this->http->request('GET', "http://$address:$port/Server.php", ['query' => $query])->getContent();
+    $file = rawurlencode((string) realpath($script));
+    $request = $this->http->createRequest('GET', "http://$address:{$this->listen()}/Server.php?file=$file");
+    return $this->http->sendRequest($request)->getBody()->getContents();
   }
 
   /**

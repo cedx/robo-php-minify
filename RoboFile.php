@@ -23,7 +23,7 @@ class RoboFile extends Tasks {
    * @return Result The task result.
    */
   function build(): Result {
-    return $this->taskPhpMinify('lib')
+    return $this->taskPhpMinify('src')
       ->mode(TransformMode::fast)
       ->to('build')
       ->run();
@@ -81,7 +81,7 @@ class RoboFile extends Tasks {
    * @return Result The task result.
    */
   function serve(): Result {
-    return $this->taskServer(8000)->dir('lib')->run();
+    return $this->taskServer(8000)->dir('src')->run();
   }
 
   /**

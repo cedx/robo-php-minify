@@ -1,7 +1,7 @@
 # Changelog
 
-## Version [2.2.0](https://git.belin.io/cedx/robo-php-minify/compare/v2.1.0...v3.0.0)
-- Breaking change: changed the signature of the `Transformer->transform()` method.
+## Version [3.0.0](https://git.belin.io/cedx/robo-php-minify/compare/v2.1.0...v3.0.0)
+- Breaking change: using [`SplFileInfo`](https://www.php.net/manual/en/class.splfileinfo.php) instances for file paths.
 - Updated the documentation.
 - Updated the package dependencies.
 

@@ -9,10 +9,12 @@ Minifies the PHP scripts corresponding to the specified file patterns, and saves
 
 ```php
 <?php
-class RoboFile extends \Robo\Tasks {
+use Robo\{Result, Tasks};
+
+class RoboFile extends Tasks {
   use \Robo\PhpMinify\Tasks;
 
-  function compressPhp(): \Robo\Result {
+  function compressPhp(): Result {
     return $this->taskPhpMinify('path/to/src/*.php')
       ->to('path/to/out')
       ->run();
@@ -20,7 +22,7 @@ class RoboFile extends \Robo\Tasks {
 }
 ```
 
-The file patterns use the same syntax as the [Symfony Finder component](https://symfony.com/doc/current/components/finder.html) (for example: `"path/*/to/*/*/src"`).
+The file patterns use the same syntax as the [Symfony Finder component](https://symfony.com/doc/current/components/finder.html) (for example: `"path/*/to/*/*/src/*.php"`).
 
 !!! tip
     You can provide several file patterns to the `taskPhpMinify()` method:
@@ -36,7 +38,9 @@ If the resulting file tree does not meet your expectations, or if you want to cu
 
 ```php
 <?php
-class RoboFile extends \Robo\Tasks {
+use Robo\{Tasks};
+
+class RoboFile extends Tasks {
   use \Robo\PhpMinify\Tasks;
 
   function compressPhp(): void {
@@ -61,10 +65,12 @@ If you want to use a different one, you can provide the path to the `php` execut
 
 ```php
 <?php
-class RoboFile extends \Robo\Tasks {
+use Robo\{Result, Tasks};
+
+class RoboFile extends Tasks {
   use \Robo\PhpMinify\Tasks;
 
-  function compressPhp(): \Robo\Result {
+  function compressPhp(): Result {
     return $this->taskPhpMinify('src/*.php')
       ->binary('C:\\Program Files\\PHP\\php.exe')
       ->to('out')
@@ -81,10 +87,12 @@ The `PhpMinify` task can work in two manners, which can be selected using the `m
 
 ```php
 <?php
-class RoboFile extends \Robo\Tasks {
+use Robo\{Result, Tasks};
+
+class RoboFile extends Tasks {
   use \Robo\PhpMinify\Tasks;
 
-  function compressPhp(): \Robo\Result {
+  function compressPhp(): Result {
     return $this->taskPhpMinify('src/*.php')
       ->mode(\Robo\PhpMinify\TransformMode::fast)
       ->to('out')
@@ -98,10 +106,12 @@ By default, the `PhpMinify` task prints to the standard output the paths of the 
 
 ```php
 <?php
-class RoboFile extends \Robo\Tasks {
+use Robo\{Result, Tasks};
+
+class RoboFile extends Tasks {
   use \Robo\PhpMinify\Tasks;
 
-  function compressPhp(): \Robo\Result {
+  function compressPhp(): Result {
     return $this->taskPhpMinify('src/*.php')
       ->silent()
       ->to('out')

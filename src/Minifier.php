@@ -5,20 +5,21 @@ use Robo\{Result};
 use Robo\Contract\{TaskInterface};
 use Robo\Task\{BaseTask};
 use Symfony\Component\Finder\{Finder};
+use Symfony\Component\Finder\Exception\{DirectoryNotFoundException};
 use Webmozart\PathUtil\{Path};
 use function Which\{which};
 
 /** Removes PHP comments and whitespace by applying the `php_strip_whitespace()` function. */
 class Minifier extends BaseTask implements TaskInterface {
 
-  /** @var string The base path that is stripped from the computed path of the destination files. */
-  private string $base = '';
+  /** @var \SplFileInfo|null The base path that is stripped from the computed path of the destination files. */
+  private ?\SplFileInfo $base = null;
 
-  /** @var string The path to the PHP executable. */
-  private string $binary = '';
+  /** @var \SplFileInfo|null The path to the PHP executable. */
+  private ?\SplFileInfo $binary = null;
 
-  /** @var string The path of the destination directory. */
-  private string $destination;
+  /** @var \SplFileInfo|null The path of the destination directory. */
+  private ?\SplFileInfo $destination = null;
 
   /** @var string The transform mode. */
   private string $mode = TransformMode::safe;
@@ -48,7 +49,7 @@ class Minifier extends BaseTask implements TaskInterface {
    */
   function base(string $path): self {
     assert(mb_strlen($path) > 0);
-    $this->base = str_replace('/', DIRECTORY_SEPARATOR, Path::canonicalize($path));
+    $this->base = new \SplFileInfo(str_replace('/', DIRECTORY_SEPARATOR, Path::canonicalize($path)));
     return $this;
   }
 
@@ -59,7 +60,7 @@ class Minifier extends BaseTask implements TaskInterface {
    */
   function binary(string $executable): self {
     assert(mb_strlen($executable) > 0);
-    $this->binary = str_replace('/', DIRECTORY_SEPARATOR, Path::canonicalize($executable));
+    $this->binary = new \SplFileInfo(str_replace('/', DIRECTORY_SEPARATOR, Path::canonicalize($executable)));
     return $this;
   }
 
@@ -167,7 +168,7 @@ class Minifier extends BaseTask implements TaskInterface {
    */
   function to(string $destination): self {
     assert(mb_strlen($destination) > 0);
-    $this->destination = str_replace('/', DIRECTORY_SEPARATOR, Path::canonicalize($destination));
+    $this->destination = new \SplFileInfo(str_replace('/', DIRECTORY_SEPARATOR, Path::canonicalize($destination)));
     return $this;
   }
 }

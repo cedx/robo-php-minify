@@ -10,8 +10,8 @@ class FastTransformer implements Transformer {
   /** @var string The address that the server is listening on. */
   const address = '127.0.0.1';
 
-  /** @var string The path to the PHP executable. */
-  private string $executable;
+  /** @var \SplFileInfo The path to the PHP executable. */
+  private \SplFileInfo $executable;
 
   /** @var Psr18Client The HTTP client. */
   private Psr18Client $http;
@@ -24,11 +24,10 @@ class FastTransformer implements Transformer {
 
   /**
    * Creates a new safe transformer.
-   * @param string $executable The path to the PHP executable.
+   * @param \SplFileInfo|null $executable The path to the PHP executable.
    */
-  function __construct(string $executable = 'php') {
-    assert(mb_strlen($executable) > 0);
-    $this->executable = $executable;
+  function __construct(?\SplFileInfo $executable = null) {
+    $this->executable = $executable ?? new \SplFileInfo('php');
     $this->http = new Psr18Client;
   }
 
@@ -58,7 +57,7 @@ class FastTransformer implements Transformer {
     if (!$this->isListening()) {
       $address = static::address;
       $this->port = $this->getPort();
-      $this->process = new Process([$this->executable, '-S', "$address:{$this->port}", '-t', __DIR__]);
+      $this->process = new Process([$this->executable->getPathname(), '-S', "$address:{$this->port}", '-t', __DIR__]);
       $this->process->start();
       sleep(1);
     }

@@ -34,7 +34,6 @@ nav:
   - Installation: installation.md
   - Usage: usage.md
   - About:
-      - Changelog: about/changelog.md
       - License: about/license.md
       - See also: about/see_also.md
 

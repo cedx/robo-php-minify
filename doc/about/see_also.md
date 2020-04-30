@@ -1,7 +1,7 @@
 # See also
 
 ## Development
-- [API reference](https://docs.belin.io/robo-php-minify/api)
+- [API reference](https://api.belin.io/robo-php-minify)
 - [Packagist package](https://packagist.org/packages/cedx/robo-php-minify)
 - [Submit an issue](https://git.belin.io/cedx/robo-php-minify/issues)
 - [Robo API docs](https://robo.li/getting-started)

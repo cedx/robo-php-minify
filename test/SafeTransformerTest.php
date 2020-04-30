@@ -35,7 +35,7 @@ class SafeTransformerTest extends TestCase {
 
   /** @testdox ->transform() */
   function testTransform(): void {
-    $script = 'test/fixtures/sample.php';
+    $script = new \SplFileInfo('test/fixtures/sample.php');
     $transformer = new SafeTransformer;
 
     // It should remove the inline comments.

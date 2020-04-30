@@ -78,7 +78,7 @@ class FastTransformerTest extends TestCase {
 
   /** @testdox ->transform() */
   function testTransform(): void {
-    $script = 'test/fixtures/sample.php';
+    $script = new \SplFileInfo('test/fixtures/sample.php');
     $transformer = new FastTransformer;
 
     // It should remove the inline comments.

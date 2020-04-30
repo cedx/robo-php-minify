@@ -32,9 +32,6 @@ class Minifier extends BaseTask implements TaskInterface {
   /** @var string[] The file patterns of the input scripts. */
   private array $sources;
 
-  /** @var Transformer The instance used to process the PHP code. */
-  private Transformer $transformer;
-
   /**
    * Creates a new minifier.
    * @param string|string[] $patterns The file patterns corresponding to the input scripts.
@@ -91,7 +88,7 @@ class Minifier extends BaseTask implements TaskInterface {
   function run(): Result {
     /** @var string $binary */
     $binary = mb_strlen($this->binary) ? $this->binary : which('php', false, fn() => 'php');
-    $this->transformer = $this->mode == TransformMode::fast ? new FastTransformer($binary) : new SafeTransformer($binary);
+    $transformer = $this->mode == TransformMode::fast ? new FastTransformer($binary) : new SafeTransformer($binary);
 
     /** @var \SplFileInfo[] $files */
     $files = [];
@@ -136,12 +133,12 @@ class Minifier extends BaseTask implements TaskInterface {
       $output = new \SplFileInfo(Path::join($this->destination, Path::makeRelative((string) $file->getRealPath(), $basePath)));
       $directory = $output->getPathInfo();
       if (!$directory->isDir()) mkdir($directory->getPathname(), 0755, true);
-      if ($output->openFile('w')->fwrite($this->transformer->transform($file))) $count++;
+      if ($output->openFile('w')->fwrite($transformer->transform($file))) $count++;
 
       $this->advanceProgressIndicator();
     }
 
-    $this->transformer->close();
+    $transformer->close();
     $this->stopProgressIndicator();
 
     $fileLabel = $this->steps <= 1 ? 'file' : 'files';

@@ -53,7 +53,7 @@ class Server {
     if (!isset($args['file']) || !mb_strlen($args['file'])) throw new \LogicException('Bad Request', 400);
 
     $file = new \SplFileInfo($args['file']);
-    if (!$file->isFile()) throw new \RuntimeException('Not Found', 404);
+    if (!$file->isReadable()) throw new \RuntimeException('Not Found', 404);
 
     $output = php_strip_whitespace($file->getPathname());
     if (!mb_strlen($output)) throw new \RuntimeException('Internal Server Error', 500);

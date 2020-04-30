@@ -33,8 +33,9 @@ class MinifierTest extends TestCase implements ContainerAwareInterface {
     $testDir = 'var/test/Minifier.run.fast';
     $this->taskPhpMinify('test/fixtures')->mode(TransformMode::fast)->silent()->to($testDir)->run();
 
-    assertThat("$testDir/sample.php", fileExists());
-    assertThat((string) @file_get_contents("$testDir/sample.php"), logicalAnd(
+    $output = new \SplFileObject("$testDir/sample.php", 'rb');
+    assertThat($output->getPathname(), fileExists());
+    assertThat((string) $output->fread($output->getSize()), logicalAnd(
       stringContains("<?= 'Hello World!' ?>"),
       stringContains('namespace dummy; class Dummy'),
       stringContains('$className = get_class($this); return $className;'),
@@ -45,8 +46,9 @@ class MinifierTest extends TestCase implements ContainerAwareInterface {
     $testDir = 'var/test/Minifier.run.safe';
     $this->taskPhpMinify('test/fixtures')->mode(TransformMode::safe)->silent()->to($testDir)->run();
 
-    assertThat("$testDir/sample.php", fileExists());
-    assertThat((string) @file_get_contents("$testDir/sample.php"), logicalAnd(
+    $output = new \SplFileObject("$testDir/sample.php", 'rb');
+    assertThat($output->getPathname(), fileExists());
+    assertThat((string) $output->fread($output->getSize()), logicalAnd(
       stringContains("<?= 'Hello World!' ?>"),
       stringContains('namespace dummy; class Dummy'),
       stringContains('$className = get_class($this); return $className;'),

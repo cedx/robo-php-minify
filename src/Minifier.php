@@ -132,9 +132,10 @@ class Minifier extends BaseTask implements TaskInterface {
     foreach ($files as $absolutePath => $relativePath) {
       if (!$this->silent) $this->printTaskInfo('Minifying {path}', ['path' => $relativePath]);
 
-      $output = Path::join($this->destination, Path::makeRelative($absolutePath, $basePath));
-      if (!is_dir($directory = dirname($output))) mkdir($directory, 0755, true);
-      if (file_put_contents($output, $this->transformer->transform($absolutePath))) $count++;
+      $output = new \SplFileObject(Path::join($this->destination, Path::makeRelative($absolutePath, $basePath)), 'wb');
+      $directory = $output->getPathInfo();
+      if (!$directory->isDir()) mkdir($directory->getPathname(), 0755, true);
+      if ($output->fwrite($this->transformer->transform($absolutePath))) $count++;
 
       $this->advanceProgressIndicator();
     }

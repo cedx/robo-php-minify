@@ -4,13 +4,13 @@
 [Robo](https://robo.li) plug-in minifying [PHP](https://www.php.net) source code by removing comments and whitespace.
 
 ## Documentation
-- [User guide](https://dev.belin.io/robo-php-minify)
-- [API reference](https://dev.belin.io/robo-php-minify/api)
+- [User guide](https://docs.belin.io/robo-php-minify)
+- [API reference](https://api.belin.io/robo-php-minify)
 
 ## Development
-- [Git repository](https://github.com/cedx/robo-php-minify)
+- [Git repository](https://git.belin.io/cedx/robo-php-minify)
 - [Packagist package](https://packagist.org/packages/cedx/robo-php-minify)
-- [Submit an issue](https://github.com/cedx/robo-php-minify/issues)
+- [Submit an issue](https://git.belin.io/cedx/robo-php-minify/issues)
 
 ## License
-[Robo-PHP-Minify](https://dev.belin.io/robo-php-minify) is distributed under the MIT License.
+[Robo-PHP-Minify](https://docs.belin.io/robo-php-minify) is distributed under the MIT License.

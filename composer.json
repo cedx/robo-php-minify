@@ -1,6 +1,6 @@
 {
   "description": "Robo plug-in minifying PHP source code by removing comments and whitespace.",
-  "homepage": "https://dev.belin.io/robo-php-minify",
+  "homepage": "https://docs.belin.io/robo-php-minify",
   "license": "MIT",
   "name": "cedx/robo-php-minify",
   "type": "robo-tasks",
@@ -53,7 +53,7 @@
     "test": "robo test"
   },
   "support": {
-    "docs": "https://dev.belin.io/robo-php-minify/api",
-    "issues": "https://github.com/cedx/robo-php-minify/issues"
+    "docs": "https://docs.belin.io/robo-php-minify/api",
+    "issues": "https://git.belin.io/cedx/robo-php-minify/issues"
   }
 }

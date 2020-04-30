@@ -87,51 +87,36 @@ class Minifier extends BaseTask implements TaskInterface {
    * @return Result The task result.
    */
   function run(): Result {
-    /** @var string $binary */
-    $binary = mb_strlen($this->binary) ? $this->binary : which('php', false, fn() => 'php');
-    $transformer = $this->mode == TransformMode::fast ? new FastTransformer($binary) : new SafeTransformer($binary);
+    if (!$this->destination) return Result::error($this, 'The destination directory is undefined.');
 
-    /** @var \SplFileInfo[] $files */
-    $files = [];
-    foreach ($this->sources as $source) {
-      try {
-        $finder = new Finder;
-        $finder->files()->followLinks()->in($source);
-      }
+    // Initialize the process.
+    try { $files = $this->findFiles(); }
+    catch (DirectoryNotFoundException $e) { return Result::fromException($this, $e); }
 
-      catch (\InvalidArgumentException $e) {
-        try {
-          if (mb_strpos($source, '/') === false) $source = "./$source";
-          $parts = explode('/', $source);
-          $directory = implode('/', array_slice($parts, 0, -1));
-
-          /** @var string $pattern */
-          $pattern = array_pop($parts);
-          $finder = (new Finder)->files()->followLinks()->in($directory)->name($pattern);
-        }
-
-        catch (\InvalidArgumentException $e) {
-          return Result::fromException($this, $e);
-        }
-      }
-
-      foreach ($finder as $file) $files[] = $file;
+    if (!$files) {
+      $message = 'No PHP files to minify.';
+      $this->printTaskSuccess($message);
+      return Result::success($this, $message);
     }
 
-    $this->steps = count($files);
-    $this->startProgressIndicator();
-
-    if (mb_strlen($this->base)) $basePath = (string) realpath($this->base);
+    if ($this->base) $basePath = (string) $this->base->getRealPath();
     else {
       $directories = array_map(fn($file) => $file->getPathInfo()->getRealPath(), $files);
       $basePath = Path::getLongestCommonBasePath($directories) ?: (string) getcwd();
     }
 
+    $destination = $this->destination->getPathname();
+    $transformer = $this->createTransformer();
+
+    // Transform the files.
+    $this->steps = count($files);
+    $this->startProgressIndicator();
+
     $count = 0;
     foreach ($files as $file) {
       if (!$this->silent) $this->printTaskInfo('Minifying {path}', ['path' => $file->getPathname()]);
 
-      $output = new \SplFileInfo(Path::join($this->destination, Path::makeRelative((string) $file->getRealPath(), $basePath)));
+      $output = new \SplFileInfo(Path::join($destination, Path::makeRelative((string) $file->getRealPath(), $basePath)));
       $directory = $output->getPathInfo();
       if (!$directory->isDir()) mkdir($directory->getPathname(), 0755, true);
       if ($output->openFile('w')->fwrite($transformer->transform($file))) $count++;
@@ -142,8 +127,9 @@ class Minifier extends BaseTask implements TaskInterface {
     $transformer->close();
     $this->stopProgressIndicator();
 
+    // Print a summary.
     $fileLabel = $this->steps <= 1 ? 'file' : 'files';
-    $context = ['count' => $count, 'total' => $this->steps, 'destination' => $this->destination];
+    $context = ['count' => $count, 'total' => $this->steps, 'destination' => $destination];
     $message = "Minified {count} out of {total} PHP $fileLabel into {destination}";
     if ($count != $this->steps) return Result::error($this, $message, $context);
 
@@ -170,5 +156,51 @@ class Minifier extends BaseTask implements TaskInterface {
     assert(mb_strlen($destination) > 0);
     $this->destination = new \SplFileInfo(str_replace('/', DIRECTORY_SEPARATOR, Path::canonicalize($destination)));
     return $this;
+  }
+
+  /**
+   * Creates a transformer corresponding to the input mode.
+   * @return Transformer The transformer corresponding to the input mode.
+   */
+  private function createTransformer(): Transformer {
+    if ($this->binary) $binary = $this->binary;
+    else {
+      /** @var string $executable */
+      $executable = which('php', false, fn() => 'php');
+      $binary = new \SplFileInfo($executable);
+    }
+
+    return $this->mode == TransformMode::fast ? new FastTransformer($binary) : new SafeTransformer($binary);
+  }
+
+  /**
+   * Finds the files corresponding to the input pattern.
+   * @return \SplFileInfo[] The found files.
+   * @throws DirectoryNotFoundException The directory corresponding to the input pattern is not found.
+   */
+  private function findFiles(): array {
+    $files = [];
+    foreach ($this->sources as $source) {
+      $finder = (new Finder)->files()->followLinks();
+
+      $hasDirectory = mb_strpos($source, DIRECTORY_SEPARATOR) === false && mb_strpos($source, '/') === false;
+      $pattern = new \SplFileInfo($hasDirectory ? $source : "./$source");
+      if ($pattern->isDir()) $finder->in($pattern->getPathname())->name('*.php');
+      else $finder->in($pattern->getPath() ?: '/')->name($pattern->getBasename());
+
+      /*
+      try {
+        $finder = (new Finder)->files()->followLinks()->in($source);
+      }
+
+      catch (DirectoryNotFoundException $e) {
+        $pattern = new \SplFileInfo(mb_strpos($source, '/') === false ? "./$source" : $source);
+        $finder = (new Finder)->files()->followLinks()->in($pattern->getPath())->name($pattern->getBasename());
+      }*/
+
+      foreach ($finder as $file) $files[] = $file;
+    }
+
+    return $files;
   }
 }

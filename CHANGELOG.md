@@ -1,6 +1,7 @@
 # Changelog
 
-## Version [2.2.0](https://git.belin.io/cedx/robo-php-minify/compare/v2.1.0...v2.2.0)
+## Version [2.2.0](https://git.belin.io/cedx/robo-php-minify/compare/v2.1.0...v3.0.0)
+- Breaking change: changed the signature of the `Transformer->transform()` method.
 - Updated the documentation.
 - Updated the package dependencies.
 

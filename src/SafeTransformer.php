@@ -23,13 +23,12 @@ class SafeTransformer implements Transformer {
 
   /**
    * Processes a PHP script.
-   * @param string $script The path to the PHP script.
+   * @param \SplFileInfo $script The path to the PHP script.
    * @return string The transformed script.
    */
-  function transform(string $script): string {
-    assert(mb_strlen($script) > 0);
+  function transform(\SplFileInfo $script): string {
     $phpExecutable = escapeshellarg($this->executable);
-    $phpScript = escapeshellarg((string) realpath($script));
+    $phpScript = escapeshellarg((string) $script->getRealPath());
     exec("$phpExecutable -w $phpScript", $output);
     return implode(PHP_EOL, $output);
   }

@@ -9,8 +9,8 @@ interface Transformer {
 
   /**
    * Processes a PHP script.
-   * @param string $script The path to the PHP script.
+   * @param \SplFileInfo $script The path to the PHP script.
    * @return string The transformed script.
    */
-  function transform(string $script): string;
+  function transform(\SplFileInfo $script): string;
 }

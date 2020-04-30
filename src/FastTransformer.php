@@ -68,13 +68,12 @@ class FastTransformer implements Transformer {
 
   /**
    * Processes a PHP script.
-   * @param string $script The path to the PHP script.
+   * @param \SplFileInfo $script The path to the PHP script.
    * @return string The transformed script.
    */
-  function transform(string $script): string {
-    assert(mb_strlen($script) > 0);
+  function transform(\SplFileInfo $script): string {
     $address = static::address;
-    $file = rawurlencode((string) realpath($script));
+    $file = rawurlencode((string) $script->getRealPath());
     $request = $this->http->createRequest('GET', "http://$address:{$this->listen()}/Server.php?file=$file");
     return $this->http->sendRequest($request)->getBody()->getContents();
   }

@@ -93,6 +93,7 @@ class Minifier extends BaseTask implements TaskInterface {
     $binary = mb_strlen($this->binary) ? $this->binary : which('php', false, fn() => 'php');
     $this->transformer = $this->mode == TransformMode::fast ? new FastTransformer($binary) : new SafeTransformer($binary);
 
+    /** @var \SplFileInfo[] $files */
     $files = [];
     foreach ($this->sources as $source) {
       try {
@@ -116,7 +117,7 @@ class Minifier extends BaseTask implements TaskInterface {
         }
       }
 
-      foreach ($finder as $file) $files[(string) $file->getRealPath()] = $file->getPathname();
+      foreach ($finder as $file) $files[] = $file;
     }
 
     $this->steps = count($files);
@@ -124,18 +125,18 @@ class Minifier extends BaseTask implements TaskInterface {
 
     if (mb_strlen($this->base)) $basePath = (string) realpath($this->base);
     else {
-      $directories = array_map(fn($file) => dirname($file), array_keys($files));
+      $directories = array_map(fn($file) => $file->getPathInfo()->getRealPath(), $files);
       $basePath = Path::getLongestCommonBasePath($directories) ?: (string) getcwd();
     }
 
     $count = 0;
-    foreach ($files as $absolutePath => $relativePath) {
-      if (!$this->silent) $this->printTaskInfo('Minifying {path}', ['path' => $relativePath]);
+    foreach ($files as $file) {
+      if (!$this->silent) $this->printTaskInfo('Minifying {path}', ['path' => $file->getPathname()]);
 
-      $output = new \SplFileInfo(Path::join($this->destination, Path::makeRelative($absolutePath, $basePath)));
+      $output = new \SplFileInfo(Path::join($this->destination, Path::makeRelative((string) $file->getRealPath(), $basePath)));
       $directory = $output->getPathInfo();
       if (!$directory->isDir()) mkdir($directory->getPathname(), 0755, true);
-      if ($output->openFile('w')->fwrite($this->transformer->transform($absolutePath))) $count++;
+      if ($output->openFile('w')->fwrite($this->transformer->transform($file))) $count++;
 
       $this->advanceProgressIndicator();
     }

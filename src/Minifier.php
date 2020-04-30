@@ -89,7 +89,6 @@ class Minifier extends BaseTask implements TaskInterface {
   function run(): Result {
     if (!$this->destination) return Result::error($this, 'The destination directory is undefined.');
 
-    // Initialize the process.
     try { $files = $this->findFiles(); }
     catch (DirectoryNotFoundException $e) { return Result::fromException($this, $e); }
 
@@ -99,37 +98,9 @@ class Minifier extends BaseTask implements TaskInterface {
       return Result::success($this, $message);
     }
 
-    if ($this->base) $basePath = (string) $this->base->getRealPath();
-    else {
-      $directories = array_map(fn($file) => $file->getPathInfo()->getRealPath(), $files);
-      $basePath = Path::getLongestCommonBasePath($directories) ?: (string) getcwd();
-    }
-
-    $destination = $this->destination->getPathname();
-    $transformer = $this->createTransformer();
-
-    // Transform the files.
-    $this->steps = count($files);
-    $this->startProgressIndicator();
-
-    $count = 0;
-    foreach ($files as $file) {
-      if (!$this->silent) $this->printTaskInfo('Minifying {path}', ['path' => $file->getPathname()]);
-
-      $output = new \SplFileInfo(Path::join($destination, Path::makeRelative((string) $file->getRealPath(), $basePath)));
-      $directory = $output->getPathInfo();
-      if (!$directory->isDir()) mkdir($directory->getPathname(), 0755, true);
-      if ($output->openFile('w')->fwrite($transformer->transform($file))) $count++;
-
-      $this->advanceProgressIndicator();
-    }
-
-    $transformer->close();
-    $this->stopProgressIndicator();
-
-    // Print a summary.
+    $count = $this->minifyFiles($files);
+    $context = ['count' => $count, 'total' => $this->steps, 'destination' => $this->destination->getPathname()];
     $fileLabel = $this->steps <= 1 ? 'file' : 'files';
-    $context = ['count' => $count, 'total' => $this->steps, 'destination' => $destination];
     $message = "Minified {count} out of {total} PHP $fileLabel into {destination}";
     if ($count != $this->steps) return Result::error($this, $message, $context);
 
@@ -182,25 +153,51 @@ class Minifier extends BaseTask implements TaskInterface {
     $files = [];
     foreach ($this->sources as $source) {
       $finder = (new Finder)->files()->followLinks();
+      $hasDirectory = mb_strpos($source, '/') === false && mb_strpos($source, DIRECTORY_SEPARATOR) === false;
 
-      $hasDirectory = mb_strpos($source, DIRECTORY_SEPARATOR) === false && mb_strpos($source, '/') === false;
       $pattern = new \SplFileInfo($hasDirectory ? $source : "./$source");
       if ($pattern->isDir()) $finder->in($pattern->getPathname())->name('*.php');
       else $finder->in($pattern->getPath() ?: '/')->name($pattern->getBasename());
-
-      /*
-      try {
-        $finder = (new Finder)->files()->followLinks()->in($source);
-      }
-
-      catch (DirectoryNotFoundException $e) {
-        $pattern = new \SplFileInfo(mb_strpos($source, '/') === false ? "./$source" : $source);
-        $finder = (new Finder)->files()->followLinks()->in($pattern->getPath())->name($pattern->getBasename());
-      }*/
 
       foreach ($finder as $file) $files[] = $file;
     }
 
     return $files;
+  }
+
+  /**
+   * Minifies the specified PHP files.
+   * @param \SplFileInfo[] $files The list of PHP files.
+   * @return int The number of minified files.
+   */
+  private function minifyFiles(array $files): int {
+    $this->steps = count($files);
+    $this->startProgressIndicator();
+
+    if ($this->base) $basePath = (string) $this->base->getRealPath();
+    else {
+      $directories = array_map(fn($file) => $file->getPathInfo()->getRealPath(), $files);
+      $basePath = Path::getLongestCommonBasePath($directories) ?: (string) getcwd();
+    }
+
+    /** @var \SplFileInfo $destination */
+    $destination = $this->destination;
+    $transformer = $this->createTransformer();
+
+    $count = 0;
+    foreach ($files as $file) {
+      if (!$this->silent) $this->printTaskInfo('Minifying {path}', ['path' => $file->getPathname()]);
+
+      $output = new \SplFileInfo(Path::join($destination->getPathname(), Path::makeRelative((string) $file->getRealPath(), $basePath)));
+      $directory = $output->getPathInfo();
+      if (!$directory->isDir()) mkdir($directory->getPathname(), 0755, true);
+      if ($output->openFile('w')->fwrite($transformer->transform($file))) $count++;
+
+      $this->advanceProgressIndicator();
+    }
+
+    $transformer->close();
+    $this->stopProgressIndicator();
+    return $count;
   }
 }

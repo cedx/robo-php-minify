@@ -33,7 +33,7 @@ class MinifierTest extends TestCase implements ContainerAwareInterface {
     $testDir = 'var/test/Minifier.run.fast';
     $this->taskPhpMinify('test/fixtures')->mode(TransformMode::fast)->silent()->to($testDir)->run();
 
-    $output = new \SplFileObject("$testDir/sample.php", 'rb');
+    $output = new \SplFileObject("$testDir/sample.php");
     assertThat($output->getPathname(), fileExists());
     assertThat((string) $output->fread($output->getSize()), logicalAnd(
       stringContains("<?= 'Hello World!' ?>"),
@@ -46,7 +46,7 @@ class MinifierTest extends TestCase implements ContainerAwareInterface {
     $testDir = 'var/test/Minifier.run.safe';
     $this->taskPhpMinify('test/fixtures')->mode(TransformMode::safe)->silent()->to($testDir)->run();
 
-    $output = new \SplFileObject("$testDir/sample.php", 'rb');
+    $output = new \SplFileObject("$testDir/sample.php");
     assertThat($output->getPathname(), fileExists());
     assertThat((string) $output->fread($output->getSize()), logicalAnd(
       stringContains("<?= 'Hello World!' ?>"),

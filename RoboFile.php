@@ -53,7 +53,7 @@ class RoboFile extends Tasks {
     $phpdoc = PHP_OS_FAMILY == 'Windows' ? 'php '.escapeshellarg('C:\Program Files\PHP\share\phpDocumentor.phar') : 'phpdoc';
     return $this->collectionBuilder()
       ->addTask($this->taskExec("$phpdoc --config=etc/phpdoc.xml"))
-      ->addTask($this->taskExec('mkdocs build --config-file=doc/mkdocs.yaml'))
+      ->addTask($this->taskExec('mkdocs build --config-file=etc/mkdocs.yaml'))
       ->run();
   }
 

@@ -5,29 +5,18 @@ namespace Robo\PhpMinify;
 class Server {
 
   /**
-   * Handles the PHP execution errors such as warnings and notices.
-   * @param int $severity The level of the error raised.
-   * @param string $message The error message.
-   * @param string $file The filename that the error was raised in.
-   * @param int $line The line number the error was raised at.
-   * @return bool Whether the error was handled.
-   * @throws \ErrorException When an error occurred.
-   */
-  function handleError(int $severity, string $message, string $file = __FILE__, int $line = __LINE__): bool {
-    assert(mb_strlen($file) > 0);
-    assert($line > 0);
-    if (error_reporting() & $severity) throw new \ErrorException($message, 0, $severity, $file, $line);
-    return false;
-  }
-
-  /**
    * Runs the application.
    * @param array<string, string> $args The request parameters.
    */
   function run(array $args = []): void {
-    set_error_handler([$this, 'handleError']);
-    try { $this->sendResponse($this->processRequest($args)); }
-    catch (\Throwable $e) { $this->sendResponse($e->getMessage(), $e->getCode()); }
+    try {
+      $this->sendResponse($this->processRequest($args));
+    }
+
+    catch (\Throwable $e) {
+      $code = $e->getCode();
+      $this->sendResponse($e->getMessage(), $code >= 400 && $code < 600 ? $code : 500);
+    }
   }
 
   /**

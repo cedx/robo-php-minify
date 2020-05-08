@@ -60,6 +60,3 @@ class Server {
     return $output;
   }
 }
-
-// Start the application.
-(new Server)->run($_GET);

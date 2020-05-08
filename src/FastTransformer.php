@@ -73,7 +73,7 @@ class FastTransformer implements Transformer {
   function transform(\SplFileInfo $script): string {
     $address = static::address;
     $file = rawurlencode((string) $script->getRealPath());
-    $request = $this->http->createRequest('GET', "http://$address:{$this->listen()}/Server.php?file=$file");
+    $request = $this->http->createRequest('GET', "http://$address:{$this->listen()}/?file=$file");
     return $this->http->sendRequest($request)->getBody()->getContents();
   }
 

@@ -26,9 +26,13 @@ class Server {
    */
   function sendResponse(string $body, int $status = 200): void {
     assert($status >= 100 && $status < 600);
+
     http_response_code($status);
-    header('Content-Length: '.strlen($body));
-    header('Content-Type: text/plain; charset='.mb_internal_encoding());
+    if (!headers_sent()) {
+      header('Content-Length: '.strlen($body));
+      header('Content-Type: text/plain; charset='.mb_internal_encoding());
+    }
+
     echo $body;
   }
 

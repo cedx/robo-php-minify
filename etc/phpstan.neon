@@ -1,7 +1,7 @@
 parameters:
-  checkMissingIterableValueType: false
-  excludes_analyse: [../test/fixtures]
-  ignoreErrors: ['/Call to an undefined method Robo\\Collection\\CollectionBuilder/']
-  level: max
-  paths: [../src, ../test]
-  treatPhpDocTypesAsCertain: false
+	checkMissingIterableValueType: false
+	excludes_analyse: [../test/fixtures]
+	ignoreErrors: ['/Call to an undefined method Robo\\Collection\\CollectionBuilder/']
+	level: max
+	paths: [../src, ../test]
+	treatPhpDocTypesAsCertain: false

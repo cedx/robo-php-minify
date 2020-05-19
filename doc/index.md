@@ -8,7 +8,7 @@
 ## Quick start
 Install the latest version of **Robo-PHP-Minify** with [Composer](https://getcomposer.org):
 
-```shell
+``` shell
 composer require cedx/robo-php-minify
 ```
 

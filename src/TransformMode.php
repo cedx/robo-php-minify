@@ -5,11 +5,11 @@ use Enum\{EnumTrait};
 
 /** Defines the type of transformation applied by a minifier. */
 final class TransformMode {
-  use EnumTrait;
+	use EnumTrait;
 
-  /** @var string Applies a fast transformation. */
-  const fast = 'fast';
+	/** @var string Applies a fast transformation. */
+	const fast = "fast";
 
-  /** @var string Applies a safe transformation. */
-  const safe = 'safe';
+	/** @var string Applies a safe transformation. */
+	const safe = "safe";
 }

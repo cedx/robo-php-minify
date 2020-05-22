@@ -1,4 +1,6 @@
 #!/usr/bin/env pwsh
 Set-StrictMode -Version Latest
 Set-Location (Split-Path $PSScriptRoot)
-vendor/bin/coveralls var/coverage.xml
+
+$composer = $IsWindows ? 'php "C:/Program Files/PHP/share/composer.phar"' : "composer"
+Invoke-Expression "$composer global exec coveralls var/coverage.xml"

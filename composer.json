@@ -45,7 +45,7 @@
 	"require-dev": {
 		"league/container": "^2.4.1 || ^3.3.0",
 		"phpstan/phpstan": "^0.12.25",
-		"phpunit/phpunit": "^9.1.4",
+		"phpunit/phpunit": "^9.1.5",
 		"symfony/console": "^4.4.8 || ^5.0.8"
 	},
 	"scripts": {

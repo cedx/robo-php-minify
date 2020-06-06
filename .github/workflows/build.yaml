@@ -21,7 +21,9 @@ jobs:
       - name: Fetch sources
         uses: actions/checkout@v2
       - name: Install dependencies
-        run: composer install --no-interaction
+        run: |
+          composer global require cedx/coveralls
+          composer install --no-interaction
       - name: Run tests
         run: composer run-script test
       - name: Collect code coverage

@@ -50,7 +50,7 @@
 	},
 	"scripts": {
 		"build": "robo build",
-		"coverage": "coveralls var/coverage.xml",
+		"coverage": "composer global exec coveralls var/coverage.xml",
 		"lint": "phpstan analyse --configuration=etc/phpstan.neon",
 		"test": "phpunit --configuration=etc/phpunit.xml"
 	},

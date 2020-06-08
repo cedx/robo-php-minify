@@ -54,7 +54,7 @@
 		"coverage": "composer global exec coveralls var/coverage.xml",
 		"doc": "pwsh tool/doc.ps1",
 		"lint": "phpstan analyse --configuration=etc/phpstan.neon",
-		"publish": "pwsh tool/publish.ps1",
+		"publish": ["@clean", "@version", "pwsh tool/publish.ps1"],
 		"serve": "php -S 127.0.0.1:8000 -t src",
 		"test": "phpunit --configuration=etc/phpunit.xml",
 		"version": "pwsh tool/version.ps1",

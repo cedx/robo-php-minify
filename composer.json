@@ -49,10 +49,16 @@
 		"symfony/console": "^5.1.0"
 	},
 	"scripts": {
-		"build": "robo build",
+		"build": "robo build --load-from tool/robo.php",
+		"clean": "pwsh tool/clean.ps1",
 		"coverage": "composer global exec coveralls var/coverage.xml",
+		"doc": "pwsh tool/doc.ps1",
 		"lint": "phpstan analyse --configuration=etc/phpstan.neon",
-		"test": "phpunit --configuration=etc/phpunit.xml"
+		"publish": "pwsh tool/publish.ps1",
+		"serve": "php -S 127.0.0.1:8000 -t src",
+		"test": "phpunit --configuration=etc/phpunit.xml",
+		"version": "pwsh tool/version.ps1",
+		"watch": "pwsh tool/watch.ps1"
 	},
 	"support": {
 		"docs": "https://docs.belin.io/robo-php-minify/api",

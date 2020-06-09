@@ -55,7 +55,7 @@
 		"doc": "pwsh tool/doc.ps1",
 		"lint": "phpstan analyse --configuration=etc/phpstan.neon",
 		"publish": ["@clean", "@version", "pwsh tool/publish.ps1"],
-		"serve": "php -S 127.0.0.1:8000 -t src",
+		"serve": "@php -S 127.0.0.1:8000 -t src",
 		"test": "phpunit --configuration=etc/phpunit.xml",
 		"version": "pwsh tool/version.ps1",
 		"watch": "pwsh tool/watch.ps1"

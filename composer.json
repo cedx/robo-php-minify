@@ -52,7 +52,7 @@
 		"build": "robo build --load-from tool/robo.php",
 		"clean": "pwsh tool/clean.ps1",
 		"coverage": "composer global exec coveralls var/coverage.xml",
-		"doc": "pwsh tool/doc.ps1",
+		"doc": ["@version", "pwsh tool/doc.ps1"],
 		"lint": "phpstan analyse --configuration=etc/phpstan.neon",
 		"publish": ["@clean", "@version", "pwsh tool/publish.ps1"],
 		"serve": "@php -S 127.0.0.1:8000 -t src",

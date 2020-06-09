@@ -33,7 +33,7 @@ class Server {
 			header("Content-Type: text/plain; charset=".mb_internal_encoding());
 		}
 
-		echo $body;
+		print $body;
 	}
 
 	/**

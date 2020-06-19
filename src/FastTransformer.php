@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 namespace Robo\PhpMinify;
 
-use Symfony\Component\HttpClient\{Psr18Client};
-use Symfony\Component\Process\{Process};
+use Symfony\Component\HttpClient\Psr18Client;
+use Symfony\Component\Process\Process;
 
 /** Removes comments and whitespace from a PHP script, by calling a Web service. */
 class FastTransformer implements Transformer {

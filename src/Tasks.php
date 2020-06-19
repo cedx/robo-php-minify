@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace Robo\PhpMinify;
 
-use Robo\Collection\{CollectionBuilder};
+use Robo\Collection\CollectionBuilder;
 
 /** Provides a set of [Robo](https://robo.li) tasks. */
 trait Tasks {

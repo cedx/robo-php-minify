@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace Robo\PhpMinify;
 
-use Enum\{EnumTrait};
+use Enum\EnumTrait;
 
 /** Defines the type of transformation applied by a minifier. */
 final class TransformMode {

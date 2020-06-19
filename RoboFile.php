@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 use Robo\{Result, Tasks};
-use Robo\PhpMinify\{TransformMode};
+use Robo\PhpMinify\TransformMode;
 
 // Load the dependencies.
 require_once __DIR__."/vendor/autoload.php";

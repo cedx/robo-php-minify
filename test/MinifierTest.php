@@ -2,10 +2,10 @@
 namespace Robo\PhpMinify;
 
 use League\Container\{ContainerAwareInterface, ContainerAwareTrait};
-use PHPUnit\Framework\{TestCase};
+use PHPUnit\Framework\TestCase;
 use Robo\{Robo, TaskAccessor};
-use Robo\Collection\{CollectionBuilder};
-use Symfony\Component\Console\Output\{NullOutput};
+use Robo\Collection\CollectionBuilder;
+use Symfony\Component\Console\Output\NullOutput;
 use function PHPUnit\Framework\{assertThat, fileExists, logicalAnd, stringContains};
 
 /** @testdox Robo\PhpMinify\Minifier */

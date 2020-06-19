@@ -38,7 +38,7 @@ If the resulting file tree does not meet your expectations, or if you want to cu
 
 ``` php
 <?php
-use Robo\{Tasks};
+use Robo\Tasks;
 
 class RoboFile extends Tasks {
 	use \Robo\PhpMinify\Tasks;
@@ -88,7 +88,7 @@ The `PhpMinify` task can work in two manners, which can be selected using the `m
 ``` php
 <?php
 use Robo\{Result, Tasks};
-use Robo\PhpMinify\{TransformMode};
+use Robo\PhpMinify\TransformMode;
 
 class RoboFile extends Tasks {
 	use \Robo\PhpMinify\Tasks;

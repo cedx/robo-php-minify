@@ -7,7 +7,7 @@ use Robo\Task\BaseTask;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
 use Webmozart\PathUtil\Path;
-use function Which\which;
+use function which\which;
 
 /** Removes PHP comments and whitespace by applying the `php_strip_whitespace()` function. */
 class Minifier extends BaseTask implements TaskInterface {
@@ -137,7 +137,7 @@ class Minifier extends BaseTask implements TaskInterface {
 		if ($this->binary) $binary = $this->binary;
 		else {
 			/** @var string $executable */
-			$executable = which("php", false, fn() => "php");
+			$executable = which("php", ["onError" => fn() => "php"]);
 			$binary = new \SplFileInfo($executable);
 		}
 

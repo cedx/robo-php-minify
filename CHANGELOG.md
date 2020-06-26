@@ -1,5 +1,9 @@
 # Changelog
 
+## Version [3.1.0](https://git.belin.io/cedx/robo-php-minify/compare/v3.0.0...v3.1.0)
+- Replaced the build system based on [Robo](https://robo.li) by [PowerShell](https://docs.microsoft.com/en-us/powershell) scripts.
+- Updated the package dependencies.
+
 ## Version [3.0.0](https://git.belin.io/cedx/robo-php-minify/compare/v2.1.0...v3.0.0)
 - Breaking change: using [`SplFileInfo`](https://www.php.net/manual/en/class.splfileinfo.php) instances for file paths.
 - Updated the documentation.

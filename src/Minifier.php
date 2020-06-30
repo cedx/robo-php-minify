@@ -153,9 +153,9 @@ class Minifier extends BaseTask implements TaskInterface {
 		$files = [];
 		foreach ($this->sources as $source) {
 			$finder = (new Finder)->files()->followLinks();
-			$hasDirectory = mb_strpos($source, "/") === false && mb_strpos($source, DIRECTORY_SEPARATOR) === false;
+			$hasDirectorySeparator = mb_strpos($source, DIRECTORY_SEPARATOR) !== false || mb_strpos($source, "/") !== false;
 
-			$pattern = new \SplFileInfo($hasDirectory ? $source : "./$source");
+			$pattern = new \SplFileInfo($hasDirectorySeparator ? $source : "./$source");
 			if ($pattern->isDir()) $finder->in($pattern->getPathname())->name("*.php");
 			else $finder->in($pattern->getPath() ?: "/")->name($pattern->getBasename());
 

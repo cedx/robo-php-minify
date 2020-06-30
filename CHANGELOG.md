@@ -1,5 +1,8 @@
 # Changelog
 
+## Version [3.1.1](https://git.belin.io/cedx/robo-php-minify/compare/v3.1.0...v3.1.1)
+- Fixed the [issue #5](https://github.com/cedx/robo-php-minify/issues/5): error when using an absolute path as source pattern.
+
 ## Version [3.1.0](https://git.belin.io/cedx/robo-php-minify/compare/v3.0.0...v3.1.0)
 - Replaced the build system based on [Robo](https://robo.li) by [PowerShell](https://docs.microsoft.com/en-us/powershell) scripts.
 - Updated the package dependencies.

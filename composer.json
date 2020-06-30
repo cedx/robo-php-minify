@@ -4,7 +4,7 @@
 	"license": "MIT",
 	"name": "cedx/robo-php-minify",
 	"type": "robo-tasks",
-	"version": "3.1.0",
+	"version": "3.1.1",
 	"authors": [
 		{"email": "cedric@belin.io", "homepage": "https://belin.io", "name": "Cédric Belin"}
 	],

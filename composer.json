@@ -32,21 +32,21 @@
 		"php": ">=7.4.0",
 		"ext-mbstring": "*",
 		"ext-spl": "*",
-		"cedx/enum": "^8.2.0",
-		"cedx/which.hx": "^1.0.2",
-		"consolidation/robo": "^2.2.1",
+		"cedx/enum": "^9.0.0",
+		"cedx/which.hx": "^2.0.2",
+		"consolidation/robo": "^2.2.2",
 		"nyholm/psr7": "^1.3.2",
 		"psr/http-client": "^1.0.1",
-		"symfony/finder": "^5.2.0",
-		"symfony/http-client": "^5.2.0",
-		"symfony/process": "^5.2.0",
+		"symfony/finder": "^5.2.1",
+		"symfony/http-client": "^5.2.1",
+		"symfony/process": "^5.2.1",
 		"webmozart/path-util": "^2.3.0"
 	},
 	"require-dev": {
-		"league/container": "^2.4.1 || ^3.3.1",
-		"phpstan/phpstan": "^0.12.58",
+		"league/container": "^2.4.1 || ^3.3.3",
+		"phpstan/phpstan": "^0.12.64",
 		"phpunit/phpunit": "^9.5.0",
-		"symfony/console": "^5.2.0"
+		"symfony/console": "^5.2.1"
 	},
 	"scripts": {
 		"build": "robo build --load-from tool/robo.php",

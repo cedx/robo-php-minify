@@ -8,10 +8,10 @@ You can verify if you're already good to go with the following commands:
 
 ```shell
 php --version
-# PHP 8.0.0 (cli) (built: Nov 24 2020 22:02:58) ( NTS Visual C++ 2019 x64 )
+# PHP 8.0.3 (cli) (built: Mar  2 2021 23:33:56) ( NTS Visual C++ 2019 x64 )
 
 composer --version
-# Composer version 2.0.7 2020-11-13 17:31:06
+# Composer version 2.0.11 2021-02-24 14:57:23
 ```
 
 ?> If you plan to play with the package sources, you will also need the latest versions of [PowerShell](https://docs.microsoft.com/en-us/powershell).

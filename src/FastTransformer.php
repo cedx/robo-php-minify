@@ -84,9 +84,7 @@ class FastTransformer implements Transformer {
 	 */
 	private function getPort(): int {
 		$address = static::address;
-		$socket = stream_socket_server("tcp://$address:0");
-		if (!$socket) throw new \RuntimeException("The socket could not be created.");
-
+		$socket = stream_socket_server("tcp://$address:0") || throw new \RuntimeException("The socket could not be created.");
 		$parts = explode(":", stream_socket_get_name($socket, false));
 		fclose($socket);
 		return (int) end($parts);

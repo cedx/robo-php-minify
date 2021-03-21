@@ -25,8 +25,6 @@ class Server {
 	 * @param int $status The status code of the response.
 	 */
 	function sendResponse(string $body, int $status = 200): void {
-		assert($status >= 100 && $status < 600);
-
 		http_response_code($status);
 		if (!headers_sent()) {
 			header("Content-Length: ".strlen($body));
@@ -43,13 +41,13 @@ class Server {
 	 * @throws \Exception The requirements are not met, or an error occurred.
 	 */
 	private function processRequest(array $args): string {
-		if (!isset($args["file"]) || !mb_strlen($args["file"])) throw new \LogicException("Bad Request", 400);
+		!empty($args["file"]) || throw new \LogicException("Bad Request", 400);
 
 		$file = new \SplFileInfo($args["file"]);
-		if (!$file->isReadable()) throw new \RuntimeException("Not Found", 404);
+		$file->isReadable() || throw new \RuntimeException("Not Found", 404);
 
 		$output = php_strip_whitespace($file->getPathname());
-		if (!mb_strlen($output)) throw new \RuntimeException("Internal Server Error", 500);
+		mb_strlen($output) || throw new \RuntimeException("Internal Server Error", 500);
 		return $output;
 	}
 }

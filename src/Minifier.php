@@ -7,6 +7,7 @@ use Robo\Task\BaseTask;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
 use Webmozart\PathUtil\Path;
+use which\FinderException;
 use function which\which;
 
 /** Removes PHP comments and whitespace by applying the `php_strip_whitespace()` function. */
@@ -132,8 +133,8 @@ class Minifier extends BaseTask implements TaskInterface {
 	private function createTransformer(): Transformer {
 		if ($this->binary) $binary = $this->binary;
 		else {
-			/** @var string $executable */
-			$executable = which("php", ["onError" => fn() => "php"])->first(); // TODO try/catch => the API has changed!!!
+			try { $executable = which("php")->first(); }
+			catch (FinderException $e) { $executable = "php"; }
 			$binary = new \SplFileInfo($executable);
 		}
 

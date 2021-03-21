@@ -1,6 +1,7 @@
 # Changelog
 
 ## Version [4.0.0](https://github.com/cedx/robo-php-minify/compare/v3.1.1...v4.0.0)
+- Breaking change: raised the required [PHP](https://www.php.net) version.
 - Breaking change: using PHP 8.0 features, like static return types, union types and throw expressions.
 - Updated the package dependencies.
 

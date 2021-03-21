@@ -1,12 +1,6 @@
-/.*/
-!/.github/
-!/.vscode/
-
 /build/
-/docs/api/
 /var/
 /vendor/
-/www/
 
 /*.code-workspace
 /*.iml

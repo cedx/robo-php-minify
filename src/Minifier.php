@@ -46,8 +46,7 @@ class Minifier extends BaseTask implements TaskInterface {
 	 * @param string $path The new base path.
 	 * @return $this This instance.
 	 */
-	function base(string $path): self {
-		assert(mb_strlen($path) > 0);
+	function base(string $path): static {
 		$this->base = new \SplFileInfo(str_replace("/", DIRECTORY_SEPARATOR, Path::canonicalize($path)));
 		return $this;
 	}
@@ -57,8 +56,7 @@ class Minifier extends BaseTask implements TaskInterface {
 	 * @param string $executable The new executable path.
 	 * @return $this This instance.
 	 */
-	function binary(string $executable): self {
-		assert(mb_strlen($executable) > 0);
+	function binary(string $executable): static {
 		$this->binary = new \SplFileInfo(str_replace("/", DIRECTORY_SEPARATOR, Path::canonicalize($executable)));
 		return $this;
 	}
@@ -68,7 +66,7 @@ class Minifier extends BaseTask implements TaskInterface {
 	 * @param string $transformMode The transform mode.
 	 * @return $this This instance.
 	 */
-	function mode(string $transformMode): self {
+	function mode(string $transformMode): static {
 		$this->mode = TransformMode::coerce($transformMode, TransformMode::safe);
 		return $this;
 	}
@@ -112,7 +110,7 @@ class Minifier extends BaseTask implements TaskInterface {
 	 * @param bool $value `true` to silent the minifier output, otherwise `false`.
 	 * @return $this This instance.
 	 */
-	function silent(bool $value = true): self {
+	function silent(bool $value = true): static {
 		$this->silent = $value;
 		return $this;
 	}
@@ -122,8 +120,7 @@ class Minifier extends BaseTask implements TaskInterface {
 	 * @param string $destination The destination directory for the minified scripts.
 	 * @return $this This instance.
 	 */
-	function to(string $destination): self {
-		assert(mb_strlen($destination) > 0);
+	function to(string $destination): static {
 		$this->destination = new \SplFileInfo(str_replace("/", DIRECTORY_SEPARATOR, Path::canonicalize($destination)));
 		return $this;
 	}
@@ -136,7 +133,7 @@ class Minifier extends BaseTask implements TaskInterface {
 		if ($this->binary) $binary = $this->binary;
 		else {
 			/** @var string $executable */
-			$executable = which("php", ["onError" => fn() => "php"]);
+			$executable = which("php", ["onError" => fn() => "php"])->first(); // TODO try/catch => the API has changed!!!
 			$binary = new \SplFileInfo($executable);
 		}
 
@@ -152,7 +149,7 @@ class Minifier extends BaseTask implements TaskInterface {
 		$files = [];
 		foreach ($this->sources as $source) {
 			$finder = (new Finder)->files()->followLinks();
-			$hasDirectorySeparator = mb_strpos($source, DIRECTORY_SEPARATOR) !== false || mb_strpos($source, "/") !== false;
+			$hasDirectorySeparator = str_contains($source, DIRECTORY_SEPARATOR) || str_contains($source, "/");
 
 			$pattern = new \SplFileInfo($hasDirectorySeparator ? $source : "./$source");
 			if ($pattern->isDir()) $finder->in($pattern->getPathname())->name("*.php");

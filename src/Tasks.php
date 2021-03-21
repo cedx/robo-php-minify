@@ -11,8 +11,7 @@ trait Tasks {
 	 * @param string|string[] $patterns The file patterns corresponding to the input scripts.
 	 * @return CollectionBuilder|Minifier The newly created task.
 	 */
-	protected function taskPhpMinify($patterns) {
-		assert(is_string($patterns) || is_array($patterns));
+	protected function taskPhpMinify(string|array $patterns) {
 		return $this->task(Minifier::class, $patterns);
 	}
 }

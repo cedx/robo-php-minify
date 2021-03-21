@@ -37,8 +37,7 @@ class Minifier extends BaseTask implements TaskInterface {
 	 * Creates a new minifier.
 	 * @param string|string[] $patterns The file patterns corresponding to the input scripts.
 	 */
-	function __construct($patterns) {
-		assert(is_string($patterns) || is_array($patterns));
+	function __construct(string|array $patterns) {
 		$this->sources = is_array($patterns) ? $patterns : [$patterns];
 	}
 
